@@ -15,7 +15,7 @@
 int compareSize(ImageNode const *a, ImageNode const *b) {
     sf::Vector2u aSize = a->getSize();
     sf::Vector2u bSize = b->getSize();
-  return (aSize.x + aSize.y > bSize.x + bSize.y);
+  return (std::max(aSize.x, aSize.y) > std::max(bSize.x, bSize.y));
 }
 
 /**
