@@ -4,6 +4,9 @@ Packs a bunch of textures into a single image and also provides metadata about w
 All of the output is put together in one big file with metadata and image data and it is some kind of home made binary
 file type.
 
+![bin packed texture atlas](example.jpg)
+
+
 ## Format
 ```
 4 bytes: sheet width.
