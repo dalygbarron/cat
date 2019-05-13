@@ -1,0 +1,5 @@
+*.P
+*.o
+main
+.DS_Store
+/*.png
