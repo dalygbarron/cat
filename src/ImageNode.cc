@@ -35,15 +35,14 @@ int ImageNode::addChild(ImageNode *child, sf::Vector2u bounds) {
 
 
 void ImageNode::flatten(sf::Image *image, sf::Vector2u drawOffset) {
-    std::cout << this->name << std::endl;
     sf::Vector2u size = this->getSize();
     for (int x = 0; x < size.x; x++) {
         for (int y = 0; y < size.y; y++) {
             image->setPixel(this->offset.x + drawOffset.x + x, this->offset.y + drawOffset.y + y, this->getPixel(x, y));
         }
     }
-    for (int x = 0; x < size.x; x++) image->setPixel(drawOffset.x + this->offset.x + x, drawOffset.y + this->offset.y, sf::Color(255, 0, 0, 255));
-    for (int y = 0; y < size.y; y++) image->setPixel(drawOffset.x + this->offset.x, drawOffset.y + this->offset.y + y, sf::Color(255, 0, 0, 255));
+    //for (int x = 0; x < size.x; x++) image->setPixel(drawOffset.x + this->offset.x + x, drawOffset.y + this->offset.y, sf::Color(255, 0, 0, 255));
+    //for (int y = 0; y < size.y; y++) image->setPixel(drawOffset.x + this->offset.x, drawOffset.y + this->offset.y + y, sf::Color(255, 0, 0, 255));
     if (this->right) this->right->flatten(image, drawOffset + this->offset);
     if (this->down) this->down->flatten(image, drawOffset + this->offset);
 }

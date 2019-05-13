@@ -24,3 +24,9 @@ To use this from the commandline it should be something along the lines of:
 rat src/images/bullets bin/data/bullets.rat
 ```
 Which would load all the images in src/images/bullets and put them in together in bullets.rat.
+
+
+## TODO
+Try this as it is, but if it's garbage and annoying, maybe consider dropping the bin packing entirely and using a
+configuration ini file that defines rows by size and sets the bullets that are placed within that row. It will still
+output to the same format though.
