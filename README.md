@@ -21,7 +21,7 @@ sheet width * sheet height * 4 bytes: pixel data of whole spritesheet.
 ## invocation
 To use this from the commandline it should be something along the lines of:
 ```
-rat src/images/bullets bin/data/bullets.rat
+rat bin/data/bullets.rat images/bullets/*.png
 ```
 Which would load all the images in src/images/bullets and put them in together in bullets.rat.
 
