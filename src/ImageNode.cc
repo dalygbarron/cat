@@ -1,5 +1,6 @@
 #include "ImageNode.hh"
 #include <iostream>
+#include "File.hh"
 
 ImageNode::ImageNode(char const *filename) {
     this->loadFromFile(filename);
@@ -41,8 +42,18 @@ void ImageNode::flatten(sf::Image *image, sf::Vector2u drawOffset) {
             image->setPixel(this->offset.x + drawOffset.x + x, this->offset.y + drawOffset.y + y, this->getPixel(x, y));
         }
     }
-    //for (int x = 0; x < size.x; x++) image->setPixel(drawOffset.x + this->offset.x + x, drawOffset.y + this->offset.y, sf::Color(255, 0, 0, 255));
-    //for (int y = 0; y < size.y; y++) image->setPixel(drawOffset.x + this->offset.x, drawOffset.y + this->offset.y + y, sf::Color(255, 0, 0, 255));
     if (this->right) this->right->flatten(image, drawOffset + this->offset);
     if (this->down) this->down->flatten(image, drawOffset + this->offset);
+}
+
+void ImageNode::write(std::ofstream *file, sf::Vector2u drawOffset) {
+    sf::Vector2u pos = this->offset + drawOffset;
+    sf::Vector2u size = this->getSize();
+    file->write(this->name, strlen(this->name));
+    File::writeInt(pos.x, file);
+    File::writeInt(pos.y, file);
+    File::writeInt(size.x, file);
+    File::writeInt(size.y, file);
+    if (this->right) this->right->write(file, pos);
+    if (this->down) this->down->write(file, pos);
 }

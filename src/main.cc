@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
 #include "ImageNode.hh"
+#include "File.hh"
 
 #define SHEET_WIDTH 512
 #define SHEET_HEIGHT 512
@@ -37,8 +38,7 @@ int main(int argc, char **argv) {
     images.sort(compareSize);
     // Build node tree.
     ImageNode *root = 0;
-    sf::Vector2u rootSize ;;
-
+    sf::Vector2u rootSize;
     for (ImageNode *node: images) {
         if (root) {
             if (!root->addChild(node, sf::Vector2u(SHEET_WIDTH, SHEET_HEIGHT))) {
@@ -53,7 +53,18 @@ int main(int argc, char **argv) {
     sf::Image pic;
     pic.create(SHEET_WIDTH, SHEET_HEIGHT, sf::Color(0, 0, 0, 0));
     root->flatten(&pic, sf::Vector2u(0, 0));
-    pic.saveToFile(argv[1]);
+    //write out to file.
+    std::ofstream file(argv[1], std::ofstream::binary);
+    File::writeInt(SHEET_WIDTH, &file);
+    File::writeInt(SHEET_HEIGHT, &file);
+    sf::Vector2u size = pic.getSize();
+    for (int x = 0; x < size.x; x++) {
+        for (int y = 0; y < size.y; y++) {
+            File::writeColour(pic.getPixel(x, y), &file);
+        }
+    }
+    File::writeInt(images.size(), &file);
+    root->write(&file, sf::Vector2u());
     // free the shit.
     images.clear();
     return 0;

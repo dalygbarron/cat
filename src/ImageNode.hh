@@ -31,6 +31,13 @@ public:
      * @param drawOffset is the offset to start drawing at so the function can be called recursively.
      */
     void flatten(sf::Image *image, sf::Vector2u drawOffset);
+
+    /**
+     * Writes about the image in a file.
+     * @param file is the file to write it into.
+     * @param drawOffset is the offset to add to this image's offset for it's global position which gets written in.
+     */
+    void write(std::ofstream *file, sf::Vector2u drawOffset);
 };
 
 #endif
