@@ -20,13 +20,13 @@ int ImageNode::addChild(ImageNode *child, sf::Vector2u bounds) {
         child->offset.y = 0;
         return true;
     }
+    if (this->right && this->right->addChild(child, sf::Vector2u(bounds.x - size.x, size.y))) {
+        return true;
+    }
     if (!this->down && childSize.x <= bounds.x && childSize.y <= bounds.y - size.y) {
         this->down = child;
         child->offset.x = 0;
         child->offset.y = size.y;
-        return true;
-    }
-    if (this->right && this->right->addChild(child, sf::Vector2u(bounds.x - size.x, size.y))) {
         return true;
     }
     if (this->down && this->down->addChild(child, sf::Vector2u(bounds.x, bounds.y - size.y))) {
