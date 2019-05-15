@@ -53,16 +53,17 @@ int main(int argc, char **argv) {
     sf::Image pic;
     pic.create(SHEET_WIDTH, SHEET_HEIGHT, sf::Color(0, 0, 0, 0));
     root->flatten(&pic, sf::Vector2u(0, 0));
+    pic.saveToFile("tmp.png");
+    std::ifstream picFile("tmp.png", std::ios::in | std::ios::binary | std::ios::ate);
+    int fileSize = picFile.tellg();
+    char *fileContent = new char[fileSize];
+    picFile.read(fileContent, fileSize);
+    picFile.close();
     //write out to file.
     std::ofstream file(argv[1], std::ofstream::binary);
-    File::writeInt(SHEET_WIDTH, &file);
-    File::writeInt(SHEET_HEIGHT, &file);
-    sf::Vector2u size = pic.getSize();
-    for (int x = 0; x < size.x; x++) {
-        for (int y = 0; y < size.y; y++) {
-            File::writeColour(pic.getPixel(x, y), &file);
-        }
-    }
+    std::cout << fileSize << std::endl;
+    File::writeInt(fileSize, &file);
+    file.write(fileContent, fileSize);
     File::writeInt(images.size(), &file);
     root->write(&file, sf::Vector2u());
     // free the shit.

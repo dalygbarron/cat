@@ -1,4 +1,6 @@
 #include "File.hh"
+#include <iostream>
+#include <iomanip>
 
 
 void File::writeInt(uint32_t value, std::ofstream *file) {
@@ -14,10 +16,9 @@ uint32_t File::readInt(std::ifstream *file) {
     char bytes[4];
     file->read(bytes, 4);
     uint32_t value = 0;
-    value += bytes[0] << 24;
-    value += bytes[1] << 16;
-    value += bytes[2] << 8;
-    value += bytes[3];
+    for (int i = 0; i < 4; i++) {
+        value = ((value << 8) & 0xffffff00) | (bytes[i] & 0xff);
+    }
     return value;
 }
 

@@ -9,8 +9,7 @@ file type.
 
 ## Format
 ```
-4 bytes: sheet width.
-4 bytes: sheet height.
+4 bytes: number of bytes in sheet picture.
 sheet width * sheet height * 4 bytes: pixel data of whole spritesheet.
 4 bytes: number of images in the sheet.
 (for each image)
@@ -20,6 +19,8 @@ sheet width * sheet height * 4 bytes: pixel data of whole spritesheet.
     4 bytes: image width.
     4 bytes: image height.
 ```
+By the way, it is always written big endian whether that is what the system normally does or not. I think, or maybe it's
+small endian. I don't really know but it's consistent.
 
 ## invocation
 To use this from the commandline it should be something along the lines of:
