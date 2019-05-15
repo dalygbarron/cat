@@ -11,24 +11,25 @@ ImageNode::ImageNode(char const *filename) {
 int ImageNode::addChild(ImageNode *child, sf::Vector2u bounds) {
     if (bounds.x > 9999) bounds.x = 0;
     if (bounds.y > 9999) bounds.y = 0;
-    sf::Vector2u size = this->getSize();
-    sf::Vector2u childSize = child->getSize();
+    sf::Vector2u identity(1, 1);
+    sf::Vector2u size = this->getSize() + identity;
+    sf::Vector2u childSize = child->getSize() + identity;
     if (!this->right && this->offset.x + childSize.x <= bounds.x - size.x && childSize.y <= size.y) {
         this->right = child;
-        child->offset.x = size.x + 1;
+        child->offset.x = size.x;
         child->offset.y = 0;
         return true;
     }
     if (!this->down && childSize.x <= bounds.x && childSize.y <= bounds.y - size.y) {
         this->down = child;
         child->offset.x = 0;
-        child->offset.y = size.y + 1;
+        child->offset.y = size.y;
         return true;
     }
-    if (this->right && this->right->addChild(child, sf::Vector2u(bounds.x - size.x - 1, size.y))) {
+    if (this->right && this->right->addChild(child, sf::Vector2u(bounds.x - size.x, size.y))) {
         return true;
     }
-    if (this->down && this->down->addChild(child, sf::Vector2u(bounds.x, bounds.y - size.y - 1))) {
+    if (this->down && this->down->addChild(child, sf::Vector2u(bounds.x, bounds.y - size.y))) {
         return true;
     }
     return false;

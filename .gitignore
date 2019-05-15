@@ -2,5 +2,5 @@
 *.o
 main
 .DS_Store
-output.png
 *.x86
+*.rat
