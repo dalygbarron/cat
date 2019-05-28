@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <list>
+#include <cstring>
 #include "ImageNode.hh"
 #include "File.hh"
 
@@ -58,7 +59,10 @@ int main(int argc, char **argv) {
     pic.saveToFile(TMP_FILE);
     std::ifstream picFile(TMP_FILE, std::ios::in | std::ios::binary | std::ios::ate);
     int fileSize = picFile.tellg();
-    char *fileContent = new char[fileSize];
+    char fileContent[fileSize];
+    memset(fileContent, 'j', fileSize);
+    // TODO: didn't have to do this next line on mac but did on linux. Investigate.
+    picFile.seekg(0);
     picFile.read(fileContent, fileSize);
     picFile.close();
     remove(TMP_FILE);
@@ -71,5 +75,6 @@ int main(int argc, char **argv) {
     root->write(&file, sf::Vector2u());
     // free the shit.
     images.clear();
+    file.close();
     return 0;
 }

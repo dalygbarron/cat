@@ -23,6 +23,7 @@ int main(int argc, char **argv) {
     file.read(fileContent, fileSize);
     int n = File::readInt(&file);
     sf::IntRect *rects = new sf::IntRect[n];
+    printf("%d\n", n);
     for (int i = 0; i < n; i++) {
         char name[NAME_BUFFER_SIZE];
         file.getline(name, NAME_BUFFER_SIZE, 0);

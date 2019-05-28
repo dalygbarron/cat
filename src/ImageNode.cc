@@ -1,5 +1,6 @@
 #include "ImageNode.hh"
 #include <iostream>
+#include <cstring>
 #include "File.hh"
 
 ImageNode::ImageNode(char const *filename) {
