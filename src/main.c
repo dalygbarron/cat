@@ -16,7 +16,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "lodepng.h"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -46,7 +45,9 @@ int main(int argc, char * const *argv) {
             default:
                 fprintf(
                     stderr,
-                    "Usage: %s [-t nsecs] [-n] name\n",
+                    "Usage: %s [-h] [-o outputImage] [-x outputXml] "
+                    "[-d <width>x<height>] [-s <width>x<height>"
+                    "<image1> <image2> <...>\n",
                     argv[0]
                 );
                 return 1;
