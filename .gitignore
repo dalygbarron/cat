@@ -5,3 +5,5 @@ main
 *.x86
 *.rat
 *.swp
+*.png
+core

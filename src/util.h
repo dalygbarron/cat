@@ -23,6 +23,14 @@
 #include "lodepng.h"
 
 /**
+ * Returns the greater of two values.
+ * @param a is the first value.
+ * @param b is the second value.
+ * @return the higher one.
+ */
+int max(int a, int b);
+
+/**
  * Gives the value of the picture's longest side.
  * @param in is the picture to compare.
  * @return the length of it's longest side.
@@ -65,5 +73,37 @@ struct Picture *loadPicture(
     int extensionFlag
 );
 
+/**
+ * Draws an array worth of pictures onto a single picture and then writes that
+ * picture to a file.
+ * @param filename is the file to write to.
+ * @param pics     is the list of pictures to render.
+ * @param nPics    is the number of pictures in the array.
+ * @param width    is the width the output image should have.
+ * @param height   is the height the output image should have.
+ * @return 1 if all went well and 0 if something screwed up.
+ */
+int renderImage(
+    char const *filename,
+    struct Picture **pics,
+    int nPics,
+    int width,
+    int height
+);
+
+/**
+ * Writes an xml file containing the information on a pack of images.
+ * @param filename is the name of the file to write to.
+ * @param image    is the name of the associated image file.
+ * @param pics     is the list of images in the file.
+ * @param nPics    is the number of pics in the array of pics.
+ * @return 1 if all went well and 0 if it screwed up.
+ */
+int renderXml(
+    char const *filename,
+    char const *image,
+    struct Picture **pics,
+    int nPics
+);
 
 #endif

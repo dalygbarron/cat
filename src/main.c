@@ -23,23 +23,30 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#define VERSION "0.0.1"
+
 /**
  * Outputs the help information to stdout.
  */
 void help() {
-    printf("Rat Pack Texture Atlas Creator\n");
+    printf("Rat Pack Texture Atlas Creator Version %s\n", VERSION);
     printf("Copyright 2019 Daly Graham Barron dalygbarron@gmail.com\n");
     printf("Licensed under the GNU GPL Version 2\n");
     printf("Actually, this program kinda sucks, maybe don't use it.\n");
+}
+
+void version() {
+    printf("%s\n", VERSION);
 }
 
 /**
  * Outputs the usage information to stderr.
  */
 void usage(char const *exe) {
-    fprintf(stderr, "Usage: %s [options] <image1> <image2> <...>\n", exe);
+    fprintf(stderr, "Usage: %s [option]... [image]...\n", exe);
     fprintf(stderr, "options:\n");
     fprintf(stderr, "    [-h]\n");
+    fprintf(stderr, "    [-v]\n");
     fprintf(stderr, "    [-o <outputImage>]\n");
     fprintf(stderr, "    [-x <outputXml>]\n");
     fprintf(stderr, "    [-d <width>x<height>]\n");
@@ -58,11 +65,16 @@ int main(int argc, char * const *argv) {
     int longestSideFlag = 1;
     int dimensionsX = 512;
     int dimensionsY = 512;
+    char const *outputImage = 0;
+    char const *outputXml = 0;
     int opt;
-    while ((opt = getopt(argc, argv, "+ho:x:d:s:c:")) != -1) {
+    while ((opt = getopt(argc, argv, "+hvo:x:d:s:c:")) != -1) {
         switch (opt) {
             case 'h':
                 help();
+                return 0;
+            case 'v':
+                version();
                 return 0;
             case 'c':
                 printf(">%s\n", optarg);
@@ -73,20 +85,40 @@ int main(int argc, char * const *argv) {
             case 's':
                 fprintf(stderr, "Sorry, -s option doesn't work yet\n");
                 break;
+            case 'o':
+                outputImage = optarg;
+                break;
+            case 'x':
+                outputXml = optarg;
+                break;
             default:
                 usage(argv[0]);
                 return 1;
         }
     }
     // Make sure there is nothing invalid going on here.
+    if (outputImage == 0) {
+        fprintf(stderr, "Error: Output image must be specified with -o\n");
+        return 1;
+    }
+    if (outputXml == 0) {
+        fprintf(stderr, "Error: Output xml must be specified with -x\n");
+        return 1;
+    }
     // Load in the argument pics.
     int nPics = argc - optind;
     struct Picture **pictures = malloc(sizeof(struct Picture *) * nPics);
     for (int i = optind; i < argc; i++) {
         pictures[i - optind] = loadPicture(argv[i], 0, 0);
     }
-    // perform the placement operation upon them.
-
+    // perform the placement operation upon them and then render them.
+    treePack(pictures, nPics, longestSide);
+    renderImage(outputImage, pictures, nPics, dimensionsX, dimensionsY);
+    renderXml(outputXml, outputImage, pictures, nPics);
     // das end.
+    for (int i = 0; i < nPics; i++) {
+        free(pictures[i]->data);
+        free(pictures[i]);
+    }
     return 0;
 }

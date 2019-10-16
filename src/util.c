@@ -20,6 +20,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+int max(int a, int b) {
+    if (a > b) return a;
+    return b;
+}
+
 float longestSide(struct Picture const *in) {
     if (in->width > in->height) return in->width;
     return in->height;
@@ -70,4 +75,59 @@ struct Picture *loadPicture(
         return 0;
     }
     return pic;
+}
+
+
+int renderImage(
+    char const *filename,
+    struct Picture **pics,
+    int nPics,
+    int width,
+    int height
+) {
+    // if allowed, shrink the image to the required size.
+    // TODO: this probably needs more work.
+    if (width == 0 || height == 0) {
+        for (int i = 0; i < nPics; i++) {
+            width = max(width, pics[i]->x + pics[i]->width);
+            height = max(height, pics[i]->y + pics[i]->height);
+        }
+    }
+    // draw in the pics.
+    unsigned char *data = malloc(sizeof(unsigned char) * width * height * 4);
+    for (int i = 0; i < nPics; i++) {
+        for (int j = 0; j < pics[i]->width * pics[i]->height; j++) {
+            int x = pics[i]->x + j % pics[i]->width;
+            int y = pics[i]->y + j / pics[i]->width;
+            if (x < width && y < height) {
+                int index = (y * width + x % width) * 4;
+                for (int u = index; u < index + 4; u++) {
+                    data[u] = pics[i]->data[j * 4 + u - index];
+                }
+            }
+        }
+    }
+    // write the file.
+    unsigned error = lodepng_encode32_file(filename, data, width, height);
+    if (error) {
+        fprintf(
+            stderr,
+            "error %u writing to '%s': %s\n",
+            error,
+            filename,
+            lodepng_error_text(error)
+        );
+        return 1;
+    }
+    return 0;
+}
+
+int renderXml(
+    char const *filename,
+    char const *image,
+    struct Picture **pictures,
+    int nPics
+) {
+    fprintf(stderr, "write didn't actually do anything lol");
+    return 0;
 }
