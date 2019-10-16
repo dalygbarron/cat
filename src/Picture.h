@@ -26,7 +26,7 @@
  * about the code which sets the locations of the pictures.
  */
 struct Picture {
-    char *data;
+    unsigned char *data;
     int x;
     int y;
     int width;

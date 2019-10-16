@@ -1,5 +1,5 @@
 CC = gcc
-OBJS = 
+OBJS = src/pack.o src/util.o src/lodepng.o
 OUT = main
 OUTS = $(OUT)
 

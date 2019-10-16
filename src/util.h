@@ -23,12 +23,32 @@
 #include "lodepng.h"
 
 /**
- * Takes a pointer to an array of pictures and sorts them from the one to the
- * longest side to the one with the least long sides.
- * @param pictures is the array of pictures that we will sort in place.
- * @param n        is the number of pictures in the array.
+ * Gives the value of the picture's longest side.
+ * @param in is the picture to compare.
+ * @return the length of it's longest side.
  */
-void sortByLongestSide(struct Picture **pictures, int n);
+float longestSide(struct Picture const *in);
+
+/**
+ * Gives the length of the picture's sides added together.
+ * @param in is the picture to look at.
+ * @return the total of the picture's sides.
+ */
+float totalSides(struct Picture const *in);
+
+/**
+ * Sorts a list of pictures by comparing them against a value calculated with
+ * your choice of function.
+ * @param pictures   is a pointer to an array of pictures to sort in place.
+ * @param n          is the number of pictures.
+ * @param comparison is a function which gives a value for each picture by
+ *                   which to compare them for sorting.
+ */
+void sort(
+    struct Picture **pics,
+    int n,
+    float (*comparison)(struct Picture const *in)
+);
 
 /**
  * Loads a picture in from the file system and returns it.

@@ -16,12 +16,35 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "util.h"
+#include "pack.h"
+#include "Picture.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
+/**
+ * Outputs the help information to stdout.
+ */
 void help() {
     printf("Rat Pack Texture Atlas Creator\n");
     printf("Copyright 2019 Daly Graham Barron dalygbarron@gmail.com\n");
+    printf("Licensed under the GNU GPL Version 2\n");
+    printf("Actually, this program kinda sucks, maybe don't use it.\n");
+}
+
+/**
+ * Outputs the usage information to stderr.
+ */
+void usage(char const *exe) {
+    fprintf(stderr, "Usage: %s [options] <image1> <image2> <...>\n", exe);
+    fprintf(stderr, "options:\n");
+    fprintf(stderr, "    [-h]\n");
+    fprintf(stderr, "    [-o <outputImage>]\n");
+    fprintf(stderr, "    [-x <outputXml>]\n");
+    fprintf(stderr, "    [-d <width>x<height>]\n");
+    fprintf(stderr, "    [-s <width>x<height>]\n");
+    fprintf(stderr, "    [-c longest-side|total-sides]\n");
 }
 
 /**
@@ -32,30 +55,38 @@ void help() {
  */
 int main(int argc, char * const *argv) {
     // Parse commandline arguments.
+    int longestSideFlag = 1;
+    int dimensionsX = 512;
+    int dimensionsY = 512;
     int opt;
-    int helpFlag = 0;
-    while ((opt = getopt(argc, argv, "+ht:")) != -1) {
+    while ((opt = getopt(argc, argv, "+ho:x:d:s:c:")) != -1) {
         switch (opt) {
             case 'h':
                 help();
-                break;
-            case 't':
+                return 0;
+            case 'c':
                 printf(">%s\n", optarg);
                 break;
+            case 'd':
+                sscanf(optarg, "%dx%d", &dimensionsX, &dimensionsY);
+                break;
+            case 's':
+                fprintf(stderr, "Sorry, -s option doesn't work yet\n");
+                break;
             default:
-                fprintf(
-                    stderr,
-                    "Usage: %s [-h] [-o outputImage] [-x outputXml] "
-                    "[-d <width>x<height>] [-s <width>x<height>"
-                    "<image1> <image2> <...>\n",
-                    argv[0]
-                );
+                usage(argv[0]);
                 return 1;
         }
     }
+    // Make sure there is nothing invalid going on here.
+    // Load in the argument pics.
+    int nPics = argc - optind;
+    struct Picture **pictures = malloc(sizeof(struct Picture *) * nPics);
     for (int i = optind; i < argc; i++) {
-        printf("eh\n");
+        pictures[i - optind] = loadPicture(argv[i], 0, 0);
     }
+    // perform the placement operation upon them.
+
     // das end.
     return 0;
 }

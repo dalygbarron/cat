@@ -19,9 +19,21 @@
 #ifndef PACK_H
 #define PACK_H
 
+#include "Picture.h"
+
 /**
- *
-int treePack(struct Picture **pictures, int n);
+ * Packs an array of pictures by settign their offset properties using a binary
+ * tree bin packing algorithm.
+ * @param pictures   is the array of pointers to pictures.
+ * @param n          is the number of pictures in the array.
+ * @param comparison is the function used to compare pictures.
+ * @return 1 if all is well, and 0 if they could not all fit.
+ */
+int treePack(
+    struct Picture **pictures,
+    int n,
+    float (*comparison)(struct Picture const *in)
+);
 
 
 #endif
