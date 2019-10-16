@@ -50,7 +50,7 @@ void usage(char const *exe) {
     fprintf(stderr, "    [-o <outputImage>]\n");
     fprintf(stderr, "    [-x <outputXml>]\n");
     fprintf(stderr, "    [-d <width>x<height>]\n");
-    fprintf(stderr, "    [-s <width>x<height>]\n");
+    fprintf(stderr, "    [-s <name>:<width>x<height>]\n");
     fprintf(stderr, "    [-c longest-side|total-sides]\n");
 }
 

@@ -14,3 +14,26 @@ that.
 ```
 First you have a top level pack object with the attribute image giving the
 relative location of the outputted image file
+
+## Options
+`-h` shows help.
+
+`-v` shows version and nothing else.
+
+`-o <outputImage>` specifies the image file the final pack should go to.
+Requied.
+
+`-x <outputXml>` specifies the xml file that the final sprite metadata should
+be written to. Required.
+
+`-d <width>x<height>` specifies the required dimensions in the final image. If
+this is not specifies then it defaults to 512x512.
+
+`-s <name>:<width>x<height>` defines an empty sprite to add into the sheet.
+Name is the name given to it in the xml file.
+
+`-c longest-side|total-sides` specifies the type of comparison to use for
+sorting when packing. total-sides is more normal, but longest-side can be good
+if you have some images that are long and thin that otherwise screw everthing
+up. total-sides is the default if not specified.
+
