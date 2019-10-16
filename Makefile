@@ -1,21 +1,15 @@
-CC = c++
-CFLAGS = -std=c++17
-LFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
-OBJS = ImageNode.o File.o
+CC = gcc
+OBJS = 
 OUT = main
-READER = reader
-OUTS = $(OUT) $(READER)
+OUTS = $(OUT)
+
+all: $(OUTS)
 
 %.o: src/%.cc
 	$(CC) $< -o $@ $(CFLAGS)
 
-main: main.o $(OBJS)
-	$(CC) $(OBJS) $< $(LFLAGS) -o $@ $(CFLAGS)
-
-reader: reader.o $(OBJS)
-	$(CC) $(OBJS) $< $(LFLAGS) -o $@ $(CFLAGS)
-
-all: $(OUTS)
+main: src/main.o $(OBJS)
+	$(CC) $(OBJS) $< -o $@
 
 clean:
 	rm -f *.o *.P $(OUTS)

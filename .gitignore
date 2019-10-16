@@ -4,3 +4,4 @@ main
 .DS_Store
 *.x86
 *.rat
+*.swp
