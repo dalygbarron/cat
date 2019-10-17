@@ -2,6 +2,9 @@
  * Rat Pack Texture Atlas Creator
  * Copyright 2019 Daly Graham Barron dalygbarron@gmail.com
  *
+ * write.c
+ * Implements the output writing methods defined in write.h.
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License Version 2 as published
  * by the Free Software Foundation.
@@ -16,22 +19,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef PICTURE_H
-#define PICTURE_H
+#include "write.h"
+#include <stdio.h>
 
-/**
- * Represents a nice picture which has got it's own size and stuff going on.
- * It also stores it's own x and y offset. The reason for this is that way the
- * code for drawing pictures into the final big picture does not need to know
- * about the code which sets the locations of the pictures.
- */
-struct Picture {
-    unsigned char *data;
-    unsigned int x;
-    unsigned int y;
-    unsigned int width;
-    unsigned int height;
-    char *name;
-};
-
-#endif
+int writeXml(
+    FILE *out,
+    char const *imageFile,
+    struct Picture **pics,
+    int n
+) {
+    if (fprintf(out, "<ratpack image=\"%s\">", imageFile) < 0) return 0;
+    for (int i = 0; i < n; i++) {
+        if (!pics[i]->name) continue;
+        int response = fprintf(
+            out,
+            "<pic name=\"%s\" x=\"%u\" y=\"%u\" w=\"%u\" h=\"%u\" />",
+            pics[i]->name,
+            pics[i]->x,
+            pics[i]->y,
+            pics[i]->width,
+            pics[i]->height
+        );
+        if (response < 0) return 0;
+    }
+    if (fprintf(out, "</ ratpack>") < 0) return 0;
+    return 1;
+}

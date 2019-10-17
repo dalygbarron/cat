@@ -2,6 +2,9 @@
  * Rat Pack Texture Atlas Creator
  * Copyright 2019 Daly Graham Barron dalygbarron@gmail.com
  *
+ * util.h
+ * This file defines utility functions that are useful within this application.
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License Version 2 as published
  * by the Free Software Foundation.
@@ -89,21 +92,6 @@ int renderImage(
     int nPics,
     int width,
     int height
-);
-
-/**
- * Writes an xml file containing the information on a pack of images.
- * @param filename is the name of the file to write to.
- * @param image    is the name of the associated image file.
- * @param pics     is the list of images in the file.
- * @param nPics    is the number of pics in the array of pics.
- * @return 1 if all went well and 0 if it screwed up.
- */
-int renderXml(
-    char const *filename,
-    char const *image,
-    struct Picture **pics,
-    int nPics
 );
 
 #endif

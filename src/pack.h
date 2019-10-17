@@ -2,6 +2,12 @@
  * Rat Pack Texture Atlas Creator
  * Copyright 2019 Daly Graham Barron dalygbarron@gmail.com
  *
+ * pack.h
+ * This file defines functions that implement different bin packing algorithms.
+ * Now I come to think of it people are not likely to want to mix and match bin
+ * packing algorithms, but if they ever do then you can add more functions here
+ * etc etc.
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License Version 2 as published
  * by the Free Software Foundation.

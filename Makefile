@@ -1,8 +1,10 @@
 CC = gcc
-CFLAGS = -g
-OBJS = src/pack.o src/util.o src/lodepng.o
-OUT = main
-OUTS = $(OUT)
+CFLAGS = -g -I src
+OBJS = src/pack.o src/util.o src/write.o src/lodepng.o
+TEST_OBJS = src/test/unit.o
+MAIN = main
+TEST = test
+OUTS = $(MAIN) $(TEST)
 
 all: $(OUTS)
 
@@ -12,5 +14,8 @@ all: $(OUTS)
 main: src/main.o $(OBJS)
 	$(CC) $(OBJS) $< -o $@ $(CFLAGS)
 
+test: src/test/testUtil.o $(OBJS) $(TEST_OBJS)
+	$(CC) $(OBJS) $(TEST_OBJS) $< -o $@ $(CFLAGS)
+
 clean:
-	rm -f *.o *.P $(OUTS)
+	rm -f src/*.o $(OUTS)

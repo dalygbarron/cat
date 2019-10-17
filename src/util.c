@@ -2,6 +2,9 @@
  * Rat Pack Texture Atlas Creator
  * Copyright 2019 Daly Graham Barron dalygbarron@gmail.com
  *
+ * util.c
+ * Implements utility functions defined in util.h.
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License Version 2 as published
  * by the Free Software Foundation.
@@ -74,6 +77,12 @@ struct Picture *loadPicture(
         free(pic);
         return 0;
     }
+    // do other parameters and parse filename.
+    pic->x = 0;
+    pic->y = 0;
+    int nameLength = strlen(filename);
+    pic->name = malloc(sizeof(char) * nameLength);
+    strncpy(pic->name, filename, nameLength);
     return pic;
 }
 

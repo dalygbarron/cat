@@ -1,6 +1,7 @@
 *.P
 *.o
 main
+test
 .DS_Store
 *.x86
 *.rat

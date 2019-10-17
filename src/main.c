@@ -2,6 +2,10 @@
  * Rat Pack Texture Atlas Creator
  * Copyright 2019 Daly Graham Barron dalygbarron@gmail.com
  *
+ * main.c
+ * Contains program entry point, parses arguments, and oversees overall program
+ * flow.
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License Version 2 as published
  * by the Free Software Foundation.
@@ -18,6 +22,7 @@
 
 #include "util.h"
 #include "pack.h"
+#include "write.h"
 #include "Picture.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -111,13 +116,26 @@ int main(int argc, char * const *argv) {
     for (int i = optind; i < argc; i++) {
         pictures[i - optind] = loadPicture(argv[i], 0, 0);
     }
-    // perform the placement operation upon them and then render them.
+    // Place the pictures.
     treePack(pictures, nPics, longestSide);
+    // Render the output image.
     renderImage(outputImage, pictures, nPics, dimensionsX, dimensionsY);
-    renderXml(outputXml, outputImage, pictures, nPics);
+    // Write the output to the correct file.
+    FILE *out = fopen(outputXml, "w");
+    if (!out) {
+        fprintf(stderr, "Can't open '%s' for writing", outputXml);
+        return 1;
+    }
+    int writeResult = writeXml(out, outputImage, pictures, nPics);
+    if (!writeResult) {
+        fprintf(stderr, "Error writing to '%s'", outputXml);
+        return 1;
+    }
+    fclose(out);
     // das end.
     for (int i = 0; i < nPics; i++) {
         free(pictures[i]->data);
+        free(pictures[i]->name);
         free(pictures[i]);
     }
     return 0;

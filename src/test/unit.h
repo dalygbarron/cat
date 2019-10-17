@@ -2,6 +2,9 @@
  * Rat Pack Texture Atlas Creator
  * Copyright 2019 Daly Graham Barron dalygbarron@gmail.com
  *
+ * unit.h
+ * contains basic macros for facilitating unit testing.
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License Version 2 as published
  * by the Free Software Foundation.
@@ -16,22 +19,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef PICTURE_H
-#define PICTURE_H
+#ifndef UNIT_H
+#define UNIT_H
 
-/**
- * Represents a nice picture which has got it's own size and stuff going on.
- * It also stores it's own x and y offset. The reason for this is that way the
- * code for drawing pictures into the final big picture does not need to know
- * about the code which sets the locations of the pictures.
- */
-struct Picture {
-    unsigned char *data;
-    unsigned int x;
-    unsigned int y;
-    unsigned int width;
-    unsigned int height;
-    char *name;
-};
+#define ASS(message, test) do { assertions++; if (!(test)) return message; } while (0)
+#define RUN_TEST(test) do { char *message = test(); runTests++; if (message) return message; } while (0)
+
+extern int runTests;
+extern int assertions;
 
 #endif
