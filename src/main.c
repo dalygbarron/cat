@@ -117,7 +117,7 @@ int main(int argc, char * const *argv) {
         pictures[i - optind] = loadPicture(argv[i], 0, 0);
     }
     // Place the pictures.
-    treePack(pictures, nPics, longestSide);
+    treePack(pictures, nPics, dimensionsX, dimensionsY, longestSide);
     // Render the output image.
     renderImage(outputImage, pictures, nPics, dimensionsX, dimensionsY);
     // Write the output to the correct file.

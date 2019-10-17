@@ -32,12 +32,16 @@
  * tree bin packing algorithm.
  * @param pictures   is the array of pointers to pictures.
  * @param n          is the number of pictures in the array.
+ * @param w          is the max width of the picture.
+ * @parma h          is the max height of the picture.
  * @param comparison is the function used to compare pictures.
  * @return 1 if all is well, and 0 if they could not all fit.
  */
 int treePack(
     struct Picture **pictures,
     int n,
+    int w,
+    int h,
     float (*comparison)(struct Picture const *in)
 );
 

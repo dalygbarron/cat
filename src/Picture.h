@@ -2,6 +2,10 @@
  * Rat Pack Texture Atlas Creator
  * Copyright 2019 Daly Graham Barron dalygbarron@gmail.com
  *
+ * Picture.h
+ * Defines a picture data structure which stores an offset, bounds, a file
+ * name, and even left and right nodes for a binary tree.
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License Version 2 as published
  * by the Free Software Foundation.
@@ -31,6 +35,8 @@ struct Picture {
     unsigned int y;
     unsigned int width;
     unsigned int height;
+    struct Picture *left;
+    struct Picture *right;
     char *name;
 };
 

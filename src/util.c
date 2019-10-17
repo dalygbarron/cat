@@ -80,6 +80,8 @@ struct Picture *loadPicture(
     // do other parameters and parse filename.
     pic->x = 0;
     pic->y = 0;
+    pic->left = 0;
+    pic->right = 0;
     int nameLength = strlen(filename);
     pic->name = malloc(sizeof(char) * nameLength);
     strncpy(pic->name, filename, nameLength);
@@ -128,15 +130,5 @@ int renderImage(
         );
         return 1;
     }
-    return 0;
-}
-
-int renderXml(
-    char const *filename,
-    char const *image,
-    struct Picture **pictures,
-    int nPics
-) {
-    fprintf(stderr, "write didn't actually do anything lol");
     return 0;
 }

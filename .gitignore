@@ -7,4 +7,7 @@ test
 *.rat
 *.swp
 *.png
+*.xml
 core
+trash
+trash/*

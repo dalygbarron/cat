@@ -21,17 +21,64 @@
 
 #include "pack.h"
 #include "util.h"
+#include <stdio.h>
+
+struct Picture *tryNode(
+    struct Picture *top,
+    struct Picture *pic,
+    int x,
+    int y,
+    int w,
+    int h
+) {
+    if (!top) {
+        if (pic->width <= w && pic->height <= h) {
+            pic->x = x;
+            pic->y = y;
+            return pic;
+        }
+        return 0;
+    }
+    // old one
+    struct Picture *result = tryNode(
+        top->right,
+        pic,
+        x + top->width,
+        y,
+        w - top->width,
+        top->height
+    );
+    if (result && !top->right) top->right = pic;
+    if (result) return result;
+    result = tryNode(
+        top->left,
+        pic,
+        x,
+        y + top->height,
+        w,
+        h - top->height
+    );
+    if (result && !top->left) top->left = pic;
+    if (result) return result;
+    return 0;
+}
 
 int treePack(
-    struct Picture **pictures,
+    struct Picture **pics,
     int n,
+    int w,
+    int h,
     float (*comparison)(struct Picture const *in)
 ) {
-    sort(pictures, n, comparison);
-    int x = 0;
-    for (int i = 0; i < n; i++) {
-        pictures[i]->x = x;
-        x += pictures[i]->width;
+    // sort them to be descending.
+    sort(pics, n, comparison);
+    // now put them into a tree.
+    struct Picture *top = pics[0];
+    for (int i = 1; i < n; i++) {
+        if (!tryNode(top, pics[i], 0, 0, w, h)) {
+            fprintf(stderr, "Pic '%s' did not fit\n", pics[i]->name);
+            return 0;
+        }
     }
     return 1;
 }
