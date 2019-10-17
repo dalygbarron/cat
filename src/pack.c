@@ -48,8 +48,10 @@ struct Picture *tryNode(
         w - top->width,
         top->height
     );
-    if (result && !top->right) top->right = pic;
-    if (result) return result;
+    if (result) {
+        if (!top->right) top->right = pic;
+        return result;
+    }
     result = tryNode(
         top->left,
         pic,
@@ -58,8 +60,10 @@ struct Picture *tryNode(
         w,
         h - top->height
     );
-    if (result && !top->left) top->left = pic;
-    if (result) return result;
+    if (result) {
+        if (!top->left) top->left = pic;
+        return result;
+    }
     return 0;
 }
 
