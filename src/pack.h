@@ -45,5 +45,4 @@ int treePack(
     float (*comparison)(struct Picture const *in)
 );
 
-
 #endif

@@ -55,7 +55,7 @@ void usage(char const *exe) {
     fprintf(stderr, "    [-o <outputImage>]\n");
     fprintf(stderr, "    [-x <outputXml>]\n");
     fprintf(stderr, "    [-d <width>x<height>]\n");
-    fprintf(stderr, "    [-s <name>:<width>x<height>]\n");
+    fprintf(stderr, "    [-s <name>:<width>x<height>]...\n");
     fprintf(stderr, "    [-c longest-side|total-sides]\n");
 }
 
@@ -82,7 +82,14 @@ int main(int argc, char * const *argv) {
                 version();
                 return 0;
             case 'c':
-                printf(">%s\n", optarg);
+                if (strcmp(optarg, "longest-side") == 0) {
+                    longestSideFlag = 1;
+                } else if (strcmp(optarg, "total-sides") == 0) {
+                    longestSideFlag = 0;
+                } else {
+                    fprintf(stderr, "Invalid comparison mode '%s'\n", optarg);
+                    return 1;
+                }
                 break;
             case 'd':
                 sscanf(optarg, "%dx%d", &dimensionsX, &dimensionsY);
@@ -117,7 +124,13 @@ int main(int argc, char * const *argv) {
         pictures[i - optind] = loadPicture(argv[i], 0, 0);
     }
     // Place the pictures.
-    treePack(pictures, nPics, dimensionsX, dimensionsY, longestSide);
+    float (*comparison)(struct Picture const *a) = 0;
+    if (longestSideFlag) {
+        comparison = longestSide;
+    } else {
+        comparison = totalSides;
+    }
+    treePack(pictures, nPics, dimensionsX, dimensionsY, comparison);
     // Render the output image.
     renderImage(outputImage, pictures, nPics, dimensionsX, dimensionsY);
     // Write the output to the correct file.
