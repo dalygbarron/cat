@@ -20,6 +20,7 @@
  */
 
 #include "util.h"
+#include "write.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -91,11 +92,29 @@ struct Picture *loadPicture(
     return pic;
 }
 
-// Undeclared helper function.
 float (*parseComparison(char const *name))(struct Picture const *a) {
-    if (strcmp(name, "longest-side") == 0) return longestSide;
-    else if (strcmp(name, "total-sides") == 0) return totalSides;
-    else return 0;
+    if (strcmp(name, "longest-side") == 0) {
+        return longestSide;
+    } else if (strcmp(name, "total-sides") == 0) {
+        return totalSides;
+    } else {
+        fprintf(stderr, "Comparison '%s' is not valid.\n", name);
+        return 0;
+    }
+}
+
+int (*parseWrite(char const *name))(
+    FILE *out,
+    char const *imageFile,
+    struct Picture **pics,
+    int n
+) {
+    if (strcmp(name, "xml") == 0) {
+        return writeXml;
+    } else {
+        fprintf(stderr, "Writer '%s' is not valid.\n", name);
+        return 0;
+    }
 }
 
 int parseOptions(struct Options *options, int argc, char **argv) {
@@ -103,7 +122,7 @@ int parseOptions(struct Options *options, int argc, char **argv) {
     int opt;
     struct Picture *ghosts = 0;
     int nGhosts = 0;
-    while ((opt = getopt(argc, argv, "+hvo:f:d:g:c:")) != -1) {
+    while ((opt = getopt(argc, argv, "+hvo:f:d:g:c:w:")) != -1) {
         switch (opt) {
             case 'h':
                 options->helpFlag = 1;
@@ -113,14 +132,11 @@ int parseOptions(struct Options *options, int argc, char **argv) {
                 return 0;
             case 'c':
                 options->comparison = parseComparison(optarg);
-                if (options->comparison == 0) {
-                    fprintf(
-                        stderr,
-                        "comparison mode '%s' is not valid",
-                        optarg
-                    );
-                    return 0;
-                }
+                if (options->comparison == 0) return 0;
+                break;
+            case 'w':
+                options->write = parseWrite(optarg);
+                if (options->write == 0) return 0;
                 break;
             case 'd':
                 sscanf(

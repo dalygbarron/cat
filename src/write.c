@@ -28,20 +28,20 @@ int writeXml(
     struct Picture **pics,
     int n
 ) {
-    if (fprintf(out, "<ratpack image=\"%s\">", imageFile) < 0) return 0;
+    int result = 0;
+    result |= fprintf(out, "<pack image=\"%s\">", imageFile);
     for (int i = 0; i < n; i++) {
         if (!pics[i]->name) continue;
-        int response = fprintf(
+        result |= fprintf(
             out,
-            "<pic name=\"%s\" x=\"%u\" y=\"%u\" w=\"%u\" h=\"%u\" />\n",
+            "<rat name=\"%s\" x=\"%u\" y=\"%u\" w=\"%u\" h=\"%u\" />\n",
             pics[i]->name,
             pics[i]->x,
             pics[i]->y,
             pics[i]->width,
             pics[i]->height
         );
-        if (response < 0) return 0;
     }
-    if (fprintf(out, "</ ratpack>") < 0) return 0;
-    return 1;
+    result |= fprintf(out, "</ pack>");
+    return result < 0;
 }

@@ -77,6 +77,25 @@ struct Picture *loadPicture(
     int extensionFlag
 );
 
+/**
+ * Parses a string and returns a comparison function from it.
+ * @param name is the name of the comparison function you want.
+ * @return a function pointer for the output function.
+ */
+float (*parseComparison(char const *name))(struct Picture const *a);
+
+/**
+ * Parses a string and returns a writing output function from it.
+ * @param name is the name of the writing output function you want.
+ * @return a pointer to the function you wanted or null if you gave an
+ *         incorrect string.
+ */
+int (*parseWrite(char const *name))(
+    FILE *out,
+    char const *imageFile,
+    struct Picture **pics,
+    int n
+);
 
 /**
  * Parses the given commandline options into the given options object.

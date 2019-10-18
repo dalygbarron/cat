@@ -24,6 +24,7 @@
 #define OPTIONS_H
 
 #include "Picture.h"
+#include <stdio.h>
 
 /**
  * Stores all commandline flags and choices with their own special meaning that
@@ -39,6 +40,12 @@ struct Options {
     struct Picture **pictures;
     int nPics;
     float (*comparison)(struct Picture const *a);
+    int (*write)(
+        FILE *out,
+        char const *imageFile,
+        struct Picture **pics,
+        int n
+    );
 };
 
 #endif

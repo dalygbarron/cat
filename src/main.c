@@ -32,32 +32,33 @@
 #define VERSION "0.0.1"
 
 /**
- * Outputs the help information to stdout.
- */
-void help() {
-    printf("Rat Pack Texture Atlas Creator Version %s\n", VERSION);
-    printf("Copyright 2019 Daly Graham Barron dalygbarron@gmail.com\n");
-    printf("Licensed under the GNU GPL Version 2\n");
-    printf("Actually, this program kinda sucks, maybe don't use it.\n");
-}
-
-void version() {
-    printf("%s\n", VERSION);
-}
-
-/**
  * Outputs the usage information to stderr.
  */
 void usage(char const *exe) {
     fprintf(stderr, "Usage: %s [option]... [image]...\n", exe);
     fprintf(stderr, "options:\n");
-    fprintf(stderr, "    [-h]\n");
-    fprintf(stderr, "    [-v]\n");
-    fprintf(stderr, "    [-o <outputImage>]\n");
-    fprintf(stderr, "    [-x <outputXml>]\n");
-    fprintf(stderr, "    [-d <width>x<height>]\n");
-    fprintf(stderr, "    [-s <name>:<width>x<height>]...\n");
-    fprintf(stderr, "    [-c longest-side|total-sides]\n");
+    fprintf(stderr, "    [-h] help\n");
+    fprintf(stderr, "    [-v] version\n");
+    fprintf(stderr, "    [-o <outputImage>] output image\n");
+    fprintf(stderr, "    [-f <outputXml>] output file\n");
+    fprintf(stderr, "    [-d <width>:<height>] image dimensions\n");
+    fprintf(stderr, "    [-g <width>:<height>:<name>]... ghosts\n");
+    fprintf(stderr, "    [-c longest-side|total-sides] comparison function\n");
+    fprintf(stderr, "    [-w xml] output format\n");
+}
+
+/**
+ * Outputs the help information to stdout.
+ */
+void help(char const *exe) {
+    printf("Rat Pack Texture Atlas Creator Version %s\n", VERSION);
+    printf("Copyright 2019 Daly Graham Barron dalygbarron@gmail.com\n");
+    printf("Licensed under the GNU GPL Version 2\n");
+    usage(exe);
+}
+
+void version() {
+    printf("%s\n", VERSION);
 }
 
 /**
@@ -70,18 +71,28 @@ int main(int argc, char **argv) {
     // Set defaults and parse arguments.
     struct Options options;
     options.comparison = longestSide;
+    options.write = writeXml;
     options.helpFlag = 0;
     options.versionFlag = 0;
     options.width = 512;
     options.height = 512;
     parseOptions(&options, argc, argv);
+    // do help or version
+    if (options.helpFlag) {
+        help(argv[0]);
+        return 0;
+    }
+    if (options.versionFlag) {
+        version();
+        return 0;
+    }
     // Make sure there is nothing invalid going on here.
     if (options.outputImage == 0) {
         fprintf(stderr, "Error: Output image must be specified with -o\n");
         return 1;
     }
     if (options.outputData == 0) {
-        fprintf(stderr, "Error: Output xml must be specified with -x\n");
+        fprintf(stderr, "Error: Output xml must be specified with -f\n");
         return 1;
     }
     // Place the pictures.
@@ -106,7 +117,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Can't open '%s' for writing", options.outputData);
         return 1;
     }
-    int writeResult = writeXml(
+    int writeResult = options.write(
         out,
         options.outputImage,
         options.pictures,
