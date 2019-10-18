@@ -23,6 +23,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define GHOST_NAME_SIZE 128
+
+float (*comparison)(struct Picture const *a) parseComparison(
+    char const *name
+) {
+    if (strcmp(name, "longest-side") == 0) return longestSide;
+    else if (strcmp(comparison, "total-sides") == 0) return totalSides;
+    else return 0;
+}
+
 int max(int a, int b) {
     if (a > b) return a;
     return b;
@@ -88,6 +98,84 @@ struct Picture *loadPicture(
     return pic;
 }
 
+int parseOptions(struct Options *options, int argc, char **argv) {
+    // parse the flags.
+    int opt;
+    Picture *ghosts = 0;
+    int nGhosts = 0;
+    while ((opt = getopt(argc, argv, "+hvo:f:d:g:c:")) != -1) {
+        switch (opt) {
+            case 'h':
+                options.helpFlag = 1;
+                return 0;
+            case 'v':
+                options.versionFlag = 1;
+                return 0;
+            case 'c':
+                options.comparison = parseComparison(optarg);
+                if (options.comparison == 0) {
+                    fprintf(
+                        stderr,
+                        "comparison mode '%s' is not valid",
+                        optarg
+                    );
+                    return 0;
+                }
+                break;
+            case 'd':
+                sscanf(
+                    optarg,
+                    "%d:%d",
+                    &option.dimensionsX,
+                    &optiondimensionsY
+                );
+                break;
+            case 'g':
+                nGhosts++;
+                struct Picture *ghost = malloc(sizeof(struct Picture));
+                ghost->name = malloc(sizeof(char) * GHOST_NAME_SIZE);
+                ghost->x = 0;
+                ghost->y = 0;
+                ghost->right = 0;
+                sscanf(
+                    optarg,
+                    "%s:%d:%d",
+                    &ghost->name,
+                    &ghost->width,
+                    &ghost->height
+                );
+                if (ghosts == 0) {
+                    ghosts = ghost;
+                } else {
+                    struct Picture *node = ghosts;
+                    while (node->left);
+                    node->left = ghost;
+                }
+                break;
+            case 'o':
+                options.outputImage = optarg;
+                break;
+            default:
+                usage(argv[0]);
+                return 0;
+        }
+    }
+    // handle arguments.
+    int nPics = argc - optind + nGhosts;
+    options.pictures = malloc(sizeof(struct Picture *) * nPics);
+    for (int i = optind; i < argc; i++) {
+        pictures[i - optind] = loadPicture(argv[i], 0, 0);
+    }
+    int i = optind;
+    struct Picture *node = ghosts;
+    while (node) {
+        pictures[i] = node;
+        struct Picture *next = node->left;
+        node->left = 0;
+        node = next;
+    }
+    return 1;
+}
 
 int renderImage(
     char const *filename,

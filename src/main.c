@@ -24,6 +24,7 @@
 #include "pack.h"
 #include "write.h"
 #include "Picture.h"
+#include "options.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -65,83 +66,49 @@ void usage(char const *exe) {
  * @param argv is an array of pointers to the arguments.
  * @return 0 if all is good and 1 if it's screwed.
  */
-int main(int argc, char * const *argv) {
-    // Parse commandline arguments.
-    int longestSideFlag = 1;
-    int dimensionsX = 512;
-    int dimensionsY = 512;
-    char const *outputImage = 0;
-    char const *outputXml = 0;
-    int opt;
-    while ((opt = getopt(argc, argv, "+hvo:x:d:s:c:")) != -1) {
-        switch (opt) {
-            case 'h':
-                help();
-                return 0;
-            case 'v':
-                version();
-                return 0;
-            case 'c':
-                if (strcmp(optarg, "longest-side") == 0) {
-                    longestSideFlag = 1;
-                } else if (strcmp(optarg, "total-sides") == 0) {
-                    longestSideFlag = 0;
-                } else {
-                    fprintf(stderr, "Invalid comparison mode '%s'\n", optarg);
-                    return 1;
-                }
-                break;
-            case 'd':
-                sscanf(optarg, "%dx%d", &dimensionsX, &dimensionsY);
-                break;
-            case 's':
-                fprintf(stderr, "Sorry, -s option doesn't work yet\n");
-                break;
-            case 'o':
-                outputImage = optarg;
-                break;
-            case 'x':
-                outputXml = optarg;
-                break;
-            default:
-                usage(argv[0]);
-                return 1;
-        }
-    }
+int main(int argc, char **argv) {
+    // Set defaults and parse arguments.
+    struct Options options;
+    parseOptions(&options, argc, argv);
     // Make sure there is nothing invalid going on here.
-    if (outputImage == 0) {
+    if (options.outputImage == 0) {
         fprintf(stderr, "Error: Output image must be specified with -o\n");
         return 1;
     }
-    if (outputXml == 0) {
+    if (options.outputData == 0) {
         fprintf(stderr, "Error: Output xml must be specified with -x\n");
         return 1;
     }
-    // Load in the argument pics.
-    int nPics = argc - optind;
-    struct Picture **pictures = malloc(sizeof(struct Picture *) * nPics);
-    for (int i = optind; i < argc; i++) {
-        pictures[i - optind] = loadPicture(argv[i], 0, 0);
-    }
     // Place the pictures.
-    float (*comparison)(struct Picture const *a) = 0;
-    if (longestSideFlag) {
-        comparison = longestSide;
-    } else {
-        comparison = totalSides;
-    }
-    treePack(pictures, nPics, dimensionsX, dimensionsY, comparison);
+    treePack(
+        options.pictures,
+        options.nPics,
+        options.width,
+        options.height,
+        getComparison(options.comparisonMode)
+    );
     // Render the output image.
-    renderImage(outputImage, pictures, nPics, dimensionsX, dimensionsY);
+    renderImage(
+        options.outputImage,
+        options.pictures,
+        options.nPics,
+        options.width,
+        options.height
+    );
     // Write the output to the correct file.
-    FILE *out = fopen(outputXml, "w");
+    FILE *out = fopen(options.outputData, "w");
     if (!out) {
-        fprintf(stderr, "Can't open '%s' for writing", outputXml);
+        fprintf(stderr, "Can't open '%s' for writing", options.outputData);
         return 1;
     }
-    int writeResult = writeXml(out, outputImage, pictures, nPics);
+    int writeResult = writeXml(
+        out,
+        options.outputImage,
+        options.pictures,
+        options.nPics
+    );
     if (!writeResult) {
-        fprintf(stderr, "Error writing to '%s'", outputXml);
+        fprintf(stderr, "Error writing to '%s'", options.outputData);
         return 1;
     }
     fclose(out);

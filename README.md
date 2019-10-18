@@ -15,6 +15,8 @@ that.
 First you have a top level pack object with the attribute image giving the
 relative location of the outputted image file
 
+The data 
+
 ## Options
 `-h` shows help.
 
@@ -23,13 +25,13 @@ relative location of the outputted image file
 `-o <outputImage>` specifies the image file the final pack should go to.
 Requied.
 
-`-x <outputXml>` specifies the xml file that the final sprite metadata should
-be written to. Required.
+-f <outputFile> specifies the data output file that should describe the
+locations in the pack image.
 
-`-d <width>x<height>` specifies the required dimensions in the final image. If
-this is not specifies then it defaults to 512x512.
+`-d <width>:<height>` specifies the required dimensions in the final image. If
+this is not specifies then it defaults to 512:512.
 
-`-s <name>:<width>x<height>` defines an empty sprite to add into the sheet.
+`-g <name>:<width>:<height>` defines an empty sprite to add into the sheet.
 Name is the name given to it in the xml file.
 
 `-c longest-side|total-sides` specifies the type of comparison to use for

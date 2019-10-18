@@ -76,6 +76,19 @@ struct Picture *loadPicture(
     int extensionFlag
 );
 
+
+/**
+ * Parses the given commandline options into the given options object.
+ * Options that are not present in the commandline arguments are simply not
+ * touched, so if you have defaults you can set them before calling this
+ * method.
+ * @param options is the options object to write the results to.
+ * @param argc    is the number of commandline tokens.
+ * @param argv    is the list of commandline input tokens.
+ * @return 1 if all is well and 0 if the arguments were invalid.
+ */
+int parseOptions(struct Options *options, int argc, char **argv);
+
 /**
  * Draws an array worth of pictures onto a single picture and then writes that
  * picture to a file.
