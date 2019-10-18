@@ -23,6 +23,7 @@
 #define UTIL_H
 
 #include "Picture.h"
+#include "Options.h"
 #include "lodepng.h"
 
 /**
@@ -88,6 +89,13 @@ struct Picture *loadPicture(
  * @return 1 if all is well and 0 if the arguments were invalid.
  */
 int parseOptions(struct Options *options, int argc, char **argv);
+
+/**
+ * Frees all the pictures and stuff out of an options object so there is no
+ * memory leaking after you get rid of it.
+ * @param options is the options object storing the pictures to free.
+ */
+void freePictures(struct Options *options);
 
 /**
  * Draws an array worth of pictures onto a single picture and then writes that

@@ -2,7 +2,7 @@
  * Rat Pack Texture Atlas Creator
  * Copyright 2019 Daly Graham Barron dalygbarron@gmail.com
  *
- * options.h
+ * Options.h
  * Stores a representation of all of the commandline arguments that were
  * entered.
  *
@@ -36,7 +36,7 @@ struct Options {
     char const *outputData;
     int width;
     int height;
-    struct Picture *pictures;
+    struct Picture **pictures;
     int nPics;
     float (*comparison)(struct Picture const *a);
 };

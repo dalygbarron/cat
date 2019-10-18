@@ -24,7 +24,7 @@
 #include "pack.h"
 #include "write.h"
 #include "Picture.h"
-#include "options.h"
+#include "Options.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -69,6 +69,11 @@ void usage(char const *exe) {
 int main(int argc, char **argv) {
     // Set defaults and parse arguments.
     struct Options options;
+    options.comparison = longestSide;
+    options.helpFlag = 0;
+    options.versionFlag = 0;
+    options.width = 512;
+    options.height = 512;
     parseOptions(&options, argc, argv);
     // Make sure there is nothing invalid going on here.
     if (options.outputImage == 0) {
@@ -80,12 +85,12 @@ int main(int argc, char **argv) {
         return 1;
     }
     // Place the pictures.
-    treePack(
+    int packResult = treePack(
         options.pictures,
         options.nPics,
         options.width,
         options.height,
-        getComparison(options.comparisonMode)
+        options.comparison
     );
     // Render the output image.
     renderImage(
@@ -107,16 +112,16 @@ int main(int argc, char **argv) {
         options.pictures,
         options.nPics
     );
+    
+    fclose(out);
+    // das end.
+    if (!packResult) {
+        return 1;
+    }
     if (!writeResult) {
         fprintf(stderr, "Error writing to '%s'", options.outputData);
         return 1;
     }
-    fclose(out);
-    // das end.
-    for (int i = 0; i < nPics; i++) {
-        free(pictures[i]->data);
-        free(pictures[i]->name);
-        free(pictures[i]);
-    }
+    freePictures(&options);
     return 0;
 }

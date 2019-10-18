@@ -78,11 +78,14 @@ int treePack(
     sort(pics, n, comparison);
     // now put them into a tree.
     struct Picture *top = pics[0];
+    int succ = 1;
     for (int i = 1; i < n; i++) {
         if (!tryNode(top, pics[i], 0, 0, w, h)) {
             fprintf(stderr, "Pic '%s' did not fit\n", pics[i]->name);
-            return 0;
+            pics[i]->x = 0 - pics[i]->width;
+            pics[i]->y = 0 - pics[i]->height;
+            succ = 0;
         }
     }
-    return 1;
+    return succ;
 }

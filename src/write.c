@@ -33,7 +33,7 @@ int writeXml(
         if (!pics[i]->name) continue;
         int response = fprintf(
             out,
-            "<pic name=\"%s\" x=\"%u\" y=\"%u\" w=\"%u\" h=\"%u\" />",
+            "<pic name=\"%s\" x=\"%u\" y=\"%u\" w=\"%u\" h=\"%u\" />\n",
             pics[i]->name,
             pics[i]->x,
             pics[i]->y,
