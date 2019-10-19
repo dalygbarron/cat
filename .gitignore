@@ -2,6 +2,8 @@
 *.o
 main
 test
+testUtil
+testPath
 .DS_Store
 *.x86
 *.rat

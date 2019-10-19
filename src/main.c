@@ -29,7 +29,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define VERSION "0.0.1"
+#define VERSION "1.0"
 
 /**
  * Outputs the usage information to stderr.
