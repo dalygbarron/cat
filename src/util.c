@@ -86,9 +86,10 @@ struct Picture *loadPicture(
     pic->y = 0;
     pic->left = 0;
     pic->right = 0;
-    int nameLength = strlen(filename);
+    int nameLength = strlen(filename) + 1;
     pic->name = malloc(sizeof(char) * nameLength);
-    strncpy(pic->name, filename, nameLength);
+    memcpy(pic->name, filename, nameLength - 1);
+    pic->name[nameLength] = 0;
     return pic;
 }
 
@@ -126,10 +127,10 @@ int parseOptions(struct Options *options, int argc, char **argv) {
         switch (opt) {
             case 'h':
                 options->helpFlag = 1;
-                return 0;
+                return 1;
             case 'v':
                 options->versionFlag = 1;
-                return 0;
+                return 1;
             case 'c':
                 options->comparison = parseComparison(optarg);
                 if (options->comparison == 0) return 0;
@@ -186,7 +187,11 @@ int parseOptions(struct Options *options, int argc, char **argv) {
     options->nPics = argc - optind + nGhosts;
     options->pictures = malloc(sizeof(struct Picture *) * options->nPics);
     for (int i = optind; i < argc; i++) {
-        options->pictures[i - optind] = loadPicture(argv[i], 0, 0);
+        options->pictures[i - optind] = loadPicture(
+            argv[i],
+            options->filePathFlag,
+            options->fileExtensionFlag
+        );
     }
     int i = argc - optind;
     struct Picture *node = ghosts;

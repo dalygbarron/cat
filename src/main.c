@@ -33,30 +33,56 @@
 
 /**
  * Outputs the usage information to stderr.
+ * @param exe is the name of the executable.
  */
 void usage(char const *exe) {
     fprintf(stderr, "Usage: %s [option]... [image]...\n", exe);
     fprintf(stderr, "options:\n");
-    fprintf(stderr, "    [-h] help\n");
-    fprintf(stderr, "    [-v] version\n");
-    fprintf(stderr, "    [-o <outputImage>] output image\n");
-    fprintf(stderr, "    [-f <outputXml>] output file\n");
-    fprintf(stderr, "    [-d <width>:<height>] image dimensions\n");
-    fprintf(stderr, "    [-g <width>:<height>:<name>]... ghosts\n");
-    fprintf(stderr, "    [-c longest-side|total-sides] comparison function\n");
-    fprintf(stderr, "    [-w xml] output format\n");
+    fprintf(stderr, "    [-h]\n");
+    fprintf(stderr, "    [-v]\n");
+    fprintf(stderr, "    [-o <outputImage>]\n");
+    fprintf(stderr, "    [-f <outputXml>]\n");
+    fprintf(stderr, "    [-d <width>:<height>]\n");
+    fprintf(stderr, "    [-g <width>:<height>:<name>]...\n");
+    fprintf(stderr, "    [-c longest-side|total-sides]\n");
+    fprintf(stderr, "    [-w xml]\n");
+    fprintf(stderr, "For more information: %s -h\n", exe);
 }
 
 /**
  * Outputs the help information to stdout.
+ * @param exe is the name of the executable.
  */
 void help(char const *exe) {
     printf("Rat Pack Texture Atlas Creator Version %s\n", VERSION);
     printf("Copyright 2019 Daly Graham Barron dalygbarron@gmail.com\n");
-    printf("Licensed under the GNU GPL Version 2\n");
-    usage(exe);
+    printf("Licensed under the GNU GPL Version 2\n\n");
+    fprintf(stderr, "Usage: %s [option]... [image]...\n", exe);
+    fprintf(stderr, "options:\n");
+    fprintf(stderr, "    [-h]\n");
+    fprintf(stderr, "        Outputs help message and closes.\n");
+    fprintf(stderr, "    [-v]\n");
+    fprintf(stderr, "        Outputs version and closes.\n");
+    fprintf(stderr, "    [-o <outputImage>]\n");
+    fprintf(stderr, "        Specifies the output image (required)\n");
+    fprintf(stderr, "    [-f <outputXml>]\n");
+    fprintf(stderr, "        Specifies the output data file (required)\n");
+    fprintf(stderr, "    [-d <width>:<height>]\n");
+    fprintf(stderr, "        Specifies image dimensions (default: 512x512\n");
+    fprintf(stderr, "    [-g <width>:<height>:<name>]...\n");
+    fprintf(stderr, "        Specifies a ghost sprite with no pixels\n");
+    fprintf(stderr, "    [-c longest-side|total-sides]\n");
+    fprintf(stderr, "        Specifies the method of image sorting \n");
+    fprintf(stderr, "        (default: longest-side)\n");
+    fprintf(stderr, "    [-w xml]\n");
+    fprintf(stderr, "        Specifies output data format (default: xml)\n\n");
+    fprintf(stderr, "Example usage:\n");
+    fprintf(stderr, "    %s -o pic.png -f pic.xml a.png b.png c.png\n", exe);
 }
 
+/**
+ * Outputs the version number to stdout.
+ */
 void version() {
     printf("%s\n", VERSION);
 }
@@ -74,10 +100,17 @@ int main(int argc, char **argv) {
     options.write = writeXml;
     options.helpFlag = 0;
     options.versionFlag = 0;
+    options.filePathFlag = 0;
+    options.fileExtensionFlag = 0;
     options.width = 512;
     options.height = 512;
-    parseOptions(&options, argc, argv);
-    // do help or version
+    options.outputData = 0;
+    options.outputImage = 0;
+    if (!parseOptions(&options, argc, argv)) {
+        usage(argv[0]);
+        return 0;
+    }
+    // Do help or version.
     if (options.helpFlag) {
         help(argv[0]);
         return 0;
@@ -89,10 +122,12 @@ int main(int argc, char **argv) {
     // Make sure there is nothing invalid going on here.
     if (options.outputImage == 0) {
         fprintf(stderr, "Error: Output image must be specified with -o\n");
+        usage(argv[0]);
         return 1;
     }
     if (options.outputData == 0) {
-        fprintf(stderr, "Error: Output xml must be specified with -f\n");
+        fprintf(stderr, "Error: Output data file must be specified with -f\n");
+        usage(argv[0]);
         return 1;
     }
     // Place the pictures.
@@ -130,7 +165,7 @@ int main(int argc, char **argv) {
         return 1;
     }
     if (!writeResult) {
-        fprintf(stderr, "Error writing to '%s'", options.outputData);
+        fprintf(stderr, "Error writing to '%s'\n", options.outputData);
         return 1;
     }
     freePictures(&options);

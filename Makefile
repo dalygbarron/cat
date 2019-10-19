@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -g -I src
-OBJS = src/pack.o src/util.o src/write.o src/lodepng.o
+OBJS = src/pack.o src/util.o src/write.o src/lodepng.o src/path.o
 TEST_OBJS = src/test/unit.o
 MAIN = main
-TEST = test
-OUTS = $(MAIN) $(TEST)
+TESTS = testUtil testPath
+OUTS = $(MAIN) $(TESTS)
 
 all: $(OUTS)
 
@@ -14,7 +14,10 @@ all: $(OUTS)
 main: src/main.o $(OBJS)
 	$(CC) $(OBJS) $< -o $@ $(CFLAGS)
 
-test: src/test/testUtil.o $(OBJS) $(TEST_OBJS)
+testUtil: src/test/testUtil.o $(OBJS) $(TEST_OBJS)
+	$(CC) $(OBJS) $(TEST_OBJS) $< -o $@ $(CFLAGS)
+
+testPath: src/test/testPath.o $(OBJS) $(TEST_OBJS)
 	$(CC) $(OBJS) $(TEST_OBJS) $< -o $@ $(CFLAGS)
 
 clean:

@@ -34,7 +34,7 @@ int writeXml(
         if (!pics[i]->name) continue;
         result |= fprintf(
             out,
-            "<rat name=\"%s\" x=\"%u\" y=\"%u\" w=\"%u\" h=\"%u\" />\n",
+            "<rat name=\"%s\" x=\"%u\" y=\"%u\" w=\"%u\" h=\"%u\"/>",
             pics[i]->name,
             pics[i]->x,
             pics[i]->y,
@@ -42,6 +42,6 @@ int writeXml(
             pics[i]->height
         );
     }
-    result |= fprintf(out, "</ pack>");
-    return result < 0;
+    result |= fprintf(out, "<\\pack>");
+    return result >= 0;
 }

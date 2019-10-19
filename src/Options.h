@@ -33,6 +33,8 @@
 struct Options {
     int helpFlag;
     int versionFlag;
+    int filePathFlag;
+    int fileExtensionFlag;
     char const *outputImage;
     char const *outputData;
     int width;
