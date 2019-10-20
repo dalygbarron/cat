@@ -42,7 +42,7 @@ void usage(char const *exe) {
     fprintf(stderr, "    [-h]\n");
     fprintf(stderr, "    [-v]\n");
     fprintf(stderr, "    [-o <outputImage>]\n");
-    fprintf(stderr, "    [-f <outputXml>]\n");
+    fprintf(stderr, "    [-f <outputDatafile>]\n");
     fprintf(stderr, "    [-d <width>:<height>]\n");
     fprintf(stderr, "    [-g <width>:<height>:<name>]...\n");
     fprintf(stderr, "    [-c longest-side|total-sides]\n");
@@ -66,7 +66,7 @@ void help(char const *exe) {
     fprintf(stderr, "        Outputs version and closes.\n");
     fprintf(stderr, "    [-o <outputImage>]\n");
     fprintf(stderr, "        Specifies the output image (required)\n");
-    fprintf(stderr, "    [-f <outputXml>]\n");
+    fprintf(stderr, "    [-f <outputDatafile>]\n");
     fprintf(stderr, "        Specifies the output data file (required)\n");
     fprintf(stderr, "    [-d <width>:<height>]\n");
     fprintf(stderr, "        Specifies image dimensions (default: 512x512\n");
@@ -147,7 +147,7 @@ int main(int argc, char **argv) {
         options.width,
         options.height
     );
-    // Write the output to the correct file.
+    // Write the output to the data file.
     char *relativeImagePath = relativePathTo(
         options.outputData,
         options.outputImage
@@ -164,7 +164,7 @@ int main(int argc, char **argv) {
         options.nPics
     );
     fclose(out);
-    // das end.
+    // Tidy up and get outta here.
     free(relativeImagePath);
     freePictures(&options);
     if (!packResult) {

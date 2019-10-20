@@ -1,6 +1,6 @@
 *.P
 *.o
-main
+rat
 test
 testUtil
 testPath

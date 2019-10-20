@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g -I src
 OBJS = src/pack.o src/util.o src/write.o src/lodepng.o src/path.o
 TEST_OBJS = src/test/unit.o
-MAIN = main
+MAIN = rat
 TESTS = testUtil testPath
 OUTS = $(MAIN) $(TESTS)
 
@@ -11,7 +11,7 @@ all: $(OUTS)
 %.o: src/%.cc
 	$(CC) $< -o $@ $(CFLAGS)
 
-main: src/main.o $(OBJS)
+rat: src/main.o $(OBJS)
 	$(CC) $(OBJS) $< -o $@ $(CFLAGS)
 
 testUtil: src/test/testUtil.o $(OBJS) $(TEST_OBJS)
