@@ -19,6 +19,12 @@ Obviously you do also need to have gcc and make installed.
 This works for me on Ubuntu and Mac Os, I have not tried it on Cygwin but
 I don't see any reason why it would not also work there.
 
+Some people will probably be a bit spooked out by the fact that there is only
+source and no binary but compiling and installing it from source is quick and
+easy as hell, and it means that whenever you want to modify the functionality
+of the program with custom behaviour, you can just jump into the code, mess
+around with it, call `make install` again, and you have a new setup.
+
 
 ## Options
 `-h` shows help.
