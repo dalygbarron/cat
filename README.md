@@ -6,6 +6,20 @@ Allows you to create texture atlases for hardware rendered games and stuff like
 that.
 
 
+## Install
+There are no external dependencies except the standard library and the unix
+standard library so all you need to do is download the source and execute
+`make install` or possibly `sudo make install` from the main directory.
+
+If you want the program to be installed into a different place than /usr/local
+then you can provide the PREFIX argument to `make install`.
+
+Obviously you do also need to have gcc and make installed.
+
+This works for me on Ubuntu and Mac Os, I have not tried it on Cygwin but
+I don't see any reason why it would not also work there.
+
+
 ## Options
 `-h` shows help.
 

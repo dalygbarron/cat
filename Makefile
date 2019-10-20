@@ -1,3 +1,9 @@
+# define installation directory
+ifeq ($(PREFIX),)
+    PREFIX := /usr/local
+endif
+
+# constants
 CC = gcc
 CFLAGS = -g -I src
 OBJS = src/pack.o src/util.o src/write.o src/lodepng.o src/path.o
@@ -6,7 +12,11 @@ MAIN = rat
 TESTS = testUtil testPath
 OUTS = $(MAIN) $(TESTS)
 
+# recipes
 all: $(OUTS)
+
+install: $(MAIN)
+	install -m 755 $(MAIN) $(PREFIX)/bin/
 
 %.o: src/%.cc
 	$(CC) $< -o $@ $(CFLAGS)
