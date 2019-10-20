@@ -1,7 +1,6 @@
 *.P
 *.o
 rat
-test
 testUtil
 testPath
 .DS_Store
