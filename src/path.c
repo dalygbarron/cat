@@ -47,9 +47,6 @@ char *formatFilename(char const *path, int keepPath, int keepExtension) {
 }
 
 char *relativePathTo(char const *start, char const *end) {
-    // so every token held in common we skip, we then count the number of
-    // folders in start after the common part and append that many ..s to the
-    // start of the non common part of end.
     int delta = 0;
     while (start[delta] == end[delta] && start[delta]) delta++;
     while (delta > 0 && start[delta - 1] != '/') delta--;
