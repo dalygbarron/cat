@@ -27,7 +27,7 @@ char *formatFilename(char const *path, int keepPath, int keepExtension) {
     int length = strlen(path);
     int start = 0;
     int nameStart = length;
-    int end = length - 1;
+    int end = length;
     // cutting of the path.
     while ((nameStart > 1 && path[nameStart - 1] != '/') && nameStart > 0) {
         nameStart--;
