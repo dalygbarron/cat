@@ -126,7 +126,7 @@ int parseOptions(struct Options *options, int argc, char **argv) {
     int opt;
     struct Picture *ghosts = 0;
     int nGhosts = 0;
-    while ((opt = getopt(argc, argv, "+hvo:f:d:g:c:w:")) != -1) {
+    while ((opt = getopt(argc, argv, "+hvpeo:f:d:g:c:w:")) != -1) {
         switch (opt) {
             case 'h':
                 options->helpFlag = 1;
@@ -134,6 +134,12 @@ int parseOptions(struct Options *options, int argc, char **argv) {
             case 'v':
                 options->versionFlag = 1;
                 return 1;
+            case 'e':
+                options->fileExtensionFlag = 1;
+                break;
+            case 'p':
+                options->filePathFlag = 1;
+                break;
             case 'c':
                 options->comparison = parseComparison(optarg);
                 if (options->comparison == 0) return 0;

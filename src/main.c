@@ -41,6 +41,8 @@ void usage(char const *exe) {
     fprintf(stderr, "options:\n");
     fprintf(stderr, "    [-h]\n");
     fprintf(stderr, "    [-v]\n");
+    fprintf(stderr, "    [-p]\n");
+    fprintf(stderr, "    [-e]\n");
     fprintf(stderr, "    [-o <outputImage>]\n");
     fprintf(stderr, "    [-f <outputDatafile>]\n");
     fprintf(stderr, "    [-d <width>:<height>]\n");
@@ -64,6 +66,10 @@ void help(char const *exe) {
     printf("        Outputs help message and closes.\n");
     printf("    [-v]\n");
     printf("        Outputs version and closes.\n");
+    printf("    [-p]\n");
+    printf("        Keep path in rat names (off by default).\n");
+    printf("    [-e]\n");
+    printf("        Keep extension in rat names (off by default).\n");
     printf("    [-o <outputImage>]\n");
     printf("        Specifies the output image (required)\n");
     printf("    [-f <outputDatafile>]\n");
