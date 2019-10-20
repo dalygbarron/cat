@@ -11,6 +11,10 @@ that.
 
 `-v` shows version and nothing else.
 
+`-e` includes file extension in individual sprite names.
+
+`-p` inclcludes path in individual sprite names.
+
 `-o <outputImage>` specifies the image file the final pack should go to.
 Requied.
 
