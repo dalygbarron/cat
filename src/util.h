@@ -93,6 +93,7 @@ float (*parseComparison(char const *name))(struct Picture const *a);
 int (*parseWrite(char const *name))(
     FILE *out,
     char const *imageFile,
+    char const *version,
     struct Picture **pics,
     int n
 );

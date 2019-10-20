@@ -45,6 +45,7 @@ struct Options {
     int (*write)(
         FILE *out,
         char const *imageFile,
+        char const *version,
         struct Picture **pics,
         int n
     );

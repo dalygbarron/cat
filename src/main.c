@@ -30,7 +30,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define VERSION "1.0"
+#define VERSION "1.1.1"
 
 /**
  * Outputs the usage information to stderr.
@@ -46,7 +46,7 @@ void usage(char const *exe) {
     fprintf(stderr, "    [-d <width>:<height>]\n");
     fprintf(stderr, "    [-g <width>:<height>:<name>]...\n");
     fprintf(stderr, "    [-c longest-side|total-sides]\n");
-    fprintf(stderr, "    [-w xml]\n");
+    fprintf(stderr, "    [-w xml|json]\n");
     fprintf(stderr, "For more information: %s -h\n", exe);
 }
 
@@ -75,7 +75,7 @@ void help(char const *exe) {
     fprintf(stderr, "    [-c longest-side|total-sides]\n");
     fprintf(stderr, "        Specifies the method of image sorting \n");
     fprintf(stderr, "        (default: longest-side)\n");
-    fprintf(stderr, "    [-w xml]\n");
+    fprintf(stderr, "    [-w xml|json]\n");
     fprintf(stderr, "        Specifies output data format (default: xml)\n\n");
     fprintf(stderr, "Example usage:\n");
     fprintf(stderr, "    %s -o pic.png -f pic.xml a.png b.png c.png\n", exe);
@@ -160,6 +160,7 @@ int main(int argc, char **argv) {
     int writeResult = options.write(
         out,
         relativeImagePath,
+        VERSION,
         options.pictures,
         options.nPics
     );

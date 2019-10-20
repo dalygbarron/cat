@@ -25,11 +25,17 @@
 int writeXml(
     FILE *out,
     char const *imageFile,
+    char const *version,
     struct Picture **pics,
     int n
 ) {
     int result = 0;
-    result |= fprintf(out, "<pack image=\"%s\">", imageFile);
+    result |= fprintf(
+        out,
+        "<pack image=\"%s\" version=\"%s\">",
+        imageFile,
+        version
+    );
     for (int i = 0; i < n; i++) {
         if (!pics[i]->name) continue;
         result |= fprintf(
@@ -42,6 +48,44 @@ int writeXml(
             pics[i]->height
         );
     }
-    result |= fprintf(out, "<\\pack>");
+    result |= fprintf(out, "</pack>");
+    return result >= 0;
+}
+
+int writeJson(
+    FILE *out,
+    char const *imageFile,
+    char const *version,
+    struct Picture **pics,
+    int n
+) {
+    int result = 0;
+    result |= fprintf(
+        out,
+        "{\"image\": \"%s\", \"version\": \"%s\", \"rats\": [",
+        imageFile,
+        version
+    );
+    for (int i = 0; i < n - 1; i++) {
+        if (!pics[i]->name) continue;
+        result |= fprintf(
+            out,
+            "{\"name\": \"%s\", \"x\": %u, \"y\": %u, \"w\": %u, \"h\": %u},",
+            pics[i]->name,
+            pics[i]->x,
+            pics[i]->y,
+            pics[i]->width,
+            pics[i]->height
+        );
+    }
+    result |= fprintf(
+        out,
+        "{\"name\": \"%s\", \"x\": %u, \"y\": %u, \"w\": %u, \"h\": %u}]}",
+        pics[n - 1]->name,
+        pics[n - 1]->x,
+        pics[n - 1]->y,
+        pics[n - 1]->width,
+        pics[n - 1]->height
+    );
     return result >= 0;
 }

@@ -34,6 +34,7 @@
  * @see README.md to see what the format is.
  * @param out       is the file to write to.
  * @param imageFile is the filename of the associated image.
+ * @param version   is the version of the program used.
  * @param pics      is the list of pics in the pack.
  * @param n         is the number of pics in the list.
  * @return 1 if all went well and 0 if it failed due to io or something.
@@ -41,6 +42,25 @@
 int writeXml(
     FILE *out,
     char const *imageFile,
+    char const *version,
+    struct Picture **pics,
+    int n
+);
+
+/**
+ * Writes out the positions of all the pictures within the pack as json.
+ * @see README.md to see what the format is.
+ * @param out       is the file to write to.
+ * @param imageFile is the filename of the associated image.
+ * @param version   is the version of the program used.
+ * @param pics      is the list of pics in the pack.
+ * @param n         is the number of pics in the list.
+ * @return 1 if all went well and 0 if it failed due to io or something.
+ */
+int writeJson(
+    FILE *out,
+    char const *imageFile,
+    char const *version,
     struct Picture **pics,
     int n
 );

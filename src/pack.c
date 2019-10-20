@@ -77,6 +77,10 @@ int treePack(
     // sort them to be descending.
     sort(pics, n, comparison);
     // now put them into a tree.
+    if (pics[0]->width > w || pics[0]->height > h) {
+        fprintf(stderr, "Pic '%s' did not fit at all\n", pics[0]->name);
+        return 0;
+    }
     struct Picture *top = pics[0];
     int succ = 1;
     for (int i = 1; i < n; i++) {

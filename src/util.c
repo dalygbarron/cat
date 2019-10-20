@@ -107,11 +107,14 @@ float (*parseComparison(char const *name))(struct Picture const *a) {
 int (*parseWrite(char const *name))(
     FILE *out,
     char const *imageFile,
+    char const *version,
     struct Picture **pics,
     int n
 ) {
     if (strcmp(name, "xml") == 0) {
         return writeXml;
+    } else if (strcmp(name, "json") == 0) { 
+        return writeJson;
     } else {
         fprintf(stderr, "Writer '%s' is not valid.\n", name);
         return 0;
@@ -192,6 +195,11 @@ int parseOptions(struct Options *options, int argc, char **argv) {
             options->filePathFlag,
             options->fileExtensionFlag
         );
+        // if a picture fails to load then we must rewind back and free all.
+        if (!options->pictures[i - optind]) {
+            for (int j = 0; j < i - optind; j++) free(options->pictures[j]);
+            return 0;
+        }
     }
     int i = argc - optind;
     struct Picture *node = ghosts;
