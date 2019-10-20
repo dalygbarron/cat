@@ -21,6 +21,7 @@
  */
 
 #include "util.h"
+#include "path.h"
 #include "pack.h"
 #include "write.h"
 #include "Picture.h"
@@ -147,6 +148,10 @@ int main(int argc, char **argv) {
         options.height
     );
     // Write the output to the correct file.
+    char *relativeImagePath = relativePathTo(
+        options.outputData,
+        options.outputImage
+    );
     FILE *out = fopen(options.outputData, "w");
     if (!out) {
         fprintf(stderr, "Can't open '%s' for writing", options.outputData);
@@ -154,13 +159,14 @@ int main(int argc, char **argv) {
     }
     int writeResult = options.write(
         out,
-        options.outputImage,
+        relativeImagePath,
         options.pictures,
         options.nPics
     );
-    
     fclose(out);
     // das end.
+    free(relativeImagePath);
+    freePictures(&options);
     if (!packResult) {
         return 1;
     }
@@ -168,6 +174,5 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Error writing to '%s'\n", options.outputData);
         return 1;
     }
-    freePictures(&options);
     return 0;
 }
