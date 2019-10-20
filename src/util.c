@@ -21,6 +21,7 @@
 
 #include "util.h"
 #include "write.h"
+#include "path.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -63,6 +64,8 @@ struct Picture *loadPicture(
     int extensionFlag
 ) {
     struct Picture *pic = malloc(sizeof(struct Picture));
+    pic->data = 0;
+    pic->name = 0;
     int error = lodepng_decode32_file(
         &pic->data,
         &pic->width,
@@ -86,10 +89,7 @@ struct Picture *loadPicture(
     pic->y = 0;
     pic->left = 0;
     pic->right = 0;
-    int nameLength = strlen(filename) + 1;
-    pic->name = malloc(sizeof(char) * nameLength);
-    memcpy(pic->name, filename, nameLength - 1);
-    pic->name[nameLength] = 0;
+    pic->name = formatFilename(filename, pathFlag, extensionFlag);
     return pic;
 }
 
@@ -239,7 +239,7 @@ int renderImage(
     // draw in the pics.
     unsigned char *data = malloc(sizeof(unsigned char) * width * height * 4);
     for (int i = 0; i < nPics; i++) {
-        if (pics[i]->data == 0) continue;
+        if (pics[i]->data == 0 || pics[i]->x < 0 || pics[i]->y < 0) continue;
         for (int j = 0; j < pics[i]->width * pics[i]->height; j++) {
             int x = pics[i]->x + j % pics[i]->width;
             int y = pics[i]->y + j / pics[i]->width;

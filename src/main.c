@@ -58,27 +58,27 @@ void help(char const *exe) {
     printf("Rat Pack Texture Atlas Creator Version %s\n", VERSION);
     printf("Copyright 2019 Daly Graham Barron dalygbarron@gmail.com\n");
     printf("Licensed under the GNU GPL Version 2\n\n");
-    fprintf(stderr, "Usage: %s [option]... [image]...\n", exe);
-    fprintf(stderr, "options:\n");
-    fprintf(stderr, "    [-h]\n");
-    fprintf(stderr, "        Outputs help message and closes.\n");
-    fprintf(stderr, "    [-v]\n");
-    fprintf(stderr, "        Outputs version and closes.\n");
-    fprintf(stderr, "    [-o <outputImage>]\n");
-    fprintf(stderr, "        Specifies the output image (required)\n");
-    fprintf(stderr, "    [-f <outputDatafile>]\n");
-    fprintf(stderr, "        Specifies the output data file (required)\n");
-    fprintf(stderr, "    [-d <width>:<height>]\n");
-    fprintf(stderr, "        Specifies image dimensions (default: 512x512\n");
-    fprintf(stderr, "    [-g <width>:<height>:<name>]...\n");
-    fprintf(stderr, "        Specifies a ghost sprite with no pixels\n");
-    fprintf(stderr, "    [-c longest-side|total-sides]\n");
-    fprintf(stderr, "        Specifies the method of image sorting \n");
-    fprintf(stderr, "        (default: longest-side)\n");
-    fprintf(stderr, "    [-w xml|json]\n");
-    fprintf(stderr, "        Specifies output data format (default: xml)\n\n");
-    fprintf(stderr, "Example usage:\n");
-    fprintf(stderr, "    %s -o pic.png -f pic.xml a.png b.png c.png\n", exe);
+    printf("Usage: %s [option]... [image]...\n", exe);
+    printf("options:\n");
+    printf("    [-h]\n");
+    printf("        Outputs help message and closes.\n");
+    printf("    [-v]\n");
+    printf("        Outputs version and closes.\n");
+    printf("    [-o <outputImage>]\n");
+    printf("        Specifies the output image (required)\n");
+    printf("    [-f <outputDatafile>]\n");
+    printf("        Specifies the output data file (required)\n");
+    printf("    [-d <width>:<height>]\n");
+    printf("        Specifies image dimensions (default: 512x512\n");
+    printf("    [-g <width>:<height>:<name>]...\n");
+    printf("        Specifies a ghost sprite with no pixels\n");
+    printf("    [-c longest-side|total-sides]\n");
+    printf("        Specifies the method of image sorting \n");
+    printf("        (default: longest-side)\n");
+    printf("    [-w xml|json]\n");
+    printf("        Specifies output data format (default: xml)\n\n");
+    printf("Example usage:\n");
+    printf("    %s -o pic.png -f pic.xml a.png b.png c.png\n", exe);
 }
 
 /**

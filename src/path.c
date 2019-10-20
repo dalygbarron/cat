@@ -36,7 +36,7 @@ char *formatFilename(char const *path, int keepPath, int keepExtension) {
     // cutting of the extension.
     if (!keepExtension) {
         end = nameStart;
-        while ((end < length - 1 && path[end + 1] != '.') && end < 0) {
+        while ((end < length - 1 && path[end + 1] != '.')) {
             end++;
         }
     }
