@@ -80,18 +80,18 @@ there is a perfectly good and general format which has been neglected.
 The code has been written in such a way that it should be as easy as possible
 to add a new output format and recompile.
 
- - Go to write.h and copy one of the function definitions, renaming it to
+ 1. Go to write.h and copy one of the function definitions, renaming it to
    represent the name of your new format.
 
- - Go to write.c and write the implementation of your new format.
+ 2. Go to write.c and write the implementation of your new format.
 
- - Go to util.c and add the name of your format to the `parseWrite` function so
+ 3. Go to util.c and add the name of your format to the `parseWrite` function so
    it can be requested from the commandline.
 
- - Go to main.c add information about your new mode to the help and usage
+ 4. Go to main.c add information about your new mode to the help and usage
    functions (if you want).
 
- - recompile and reinstall if necessary.
+ 5. recompile and reinstall if necessary.
 
 ### Implementation
 ```
