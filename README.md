@@ -1,10 +1,16 @@
-# Rat
-Packs together a set of images into a single image, and outputs an xml file
+# Rat Pack Texture Atlas Generator
+Packs together a set of images into a single image, and outputs a data file
 which tells you where each sub image is stored within the image.
 
-Allows you to create texture atlases for hardware rendered games and stuff like
-that.
+The outputted data file can be one of a selection of easy to parse formats,
+with the ability to easily develop output for your own format as well.
 
+Rat Pack is used entirely from the commandline so it can be easily integrated
+into an automatic workflow, and you do not need to mess around with a stupid
+gui for no reason.
+
+Also it is completely free and open source which seems to be unusual in the
+field texture atlas generators.
 
 ## Install
 There are no external dependencies except the standard library and the unix
