@@ -12,6 +12,10 @@ gui for no reason.
 Also it is completely free and open source which seems to be unusual in the
 field texture atlas generators.
 
+If have found any bugs or if you have a suggestion for a feature or
+improvement then you are free to make an issue here and I will try to sort
+it out.
+
 ## Install
 There are no external dependencies except the standard library and the unix
 standard library so all you need to do is download the source and execute
