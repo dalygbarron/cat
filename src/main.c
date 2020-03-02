@@ -30,7 +30,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define VERSION "1.1.1"
+#define VERSION "1.1.2"
 
 /**
  * Outputs the usage information to stderr.
