@@ -12,3 +12,4 @@ testPath
 core
 trash
 trash/*
+.sconsign.dblite

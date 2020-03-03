@@ -1,0 +1,29 @@
+import sys
+
+lib = [
+    'sfml-graphics',
+    'sfml-system'
+]
+
+cflags = [
+    '-std=c++17',
+    '-fdiagnostics-color=always'
+]
+
+if sys.platform != 'darwin':
+    libs.append('GL')
+else:
+    cflags.append('-mmacosx-version-min=10.15')
+    cflags.append('-stdlib=libc++')
+
+mainSources = Glob('src/main/*.cc')
+testSources = Glob('src/test/*.cc')
+
+env = Environment(
+    FRAMEWORKS=['OpenGl'],
+    CXXFLAGS=cflags
+)
+
+rat = env.Program('rat', mainSources + ['src/main.cc'])
+test = env.Program('test', mainSources + testSources + ['src/catch.cc'])
+Default(rat)
