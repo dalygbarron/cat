@@ -7,18 +7,19 @@
  * Stores a font and a size and a colour.
  */
 class FontInstance {
-    sf::Font font;
-    int size;
-    sf::Color colour;
+    public:
+        sf::Font font;
+        int size;
+        sf::Color colour;
 
-    /**
-     * Creates a font instance based on a string that contains all the info it
-     * needs.
-     * @param data is the data and it should be in the format
-     *             file:size:hexColour.
-     * @throws invalid_argument if the data is no good.
-     */
-    FontInstance(char const *data);
+        /**
+         * Creates a font instance based on a string that contains all the info
+         * it needs.
+         * @param data is the data and it should be in the format
+         *             file:size:hexColour.
+         * @throws invalid_argument if the data is no good.
+         */
+        FontInstance(char const *data);
 };
 
 #endif

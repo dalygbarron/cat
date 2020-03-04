@@ -1,9 +1,10 @@
 #include "FontInstance.hh"
+#include "Util.hh"
 #include <iostream>
 
 FontInstance::FontInstance(char const *data) {
     std::string dataString = data;
-    std::vector<std::string> bits = std::split(dataString, ':');
+    std::vector<std::string> bits = Util::split(dataString, ':');
     if (bits.size() != 3) {
         std::cerr << dataString <<
             " is not a valid data string for font instance" << std::endl;

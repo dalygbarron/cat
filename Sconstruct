@@ -1,6 +1,6 @@
 import sys
 
-lib = [
+libs = [
     'sfml-graphics',
     'sfml-system'
 ]
@@ -21,7 +21,8 @@ testSources = Glob('src/test/*.cc')
 
 env = Environment(
     FRAMEWORKS=['OpenGl'],
-    CXXFLAGS=cflags
+    CXXFLAGS=cflags,
+    LIBS=libs
 )
 
 rat = env.Program('rat', mainSources + ['src/main.cc'])
