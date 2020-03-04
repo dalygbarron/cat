@@ -40,5 +40,6 @@ Options getOptions(int argc, char **argv) {
 
 int main(int argc, char **argv) {
     Options options = getOptions(argc, argv);
+    std::sort(options.pics.begin(), options.pics.end());
     return 0;
 }

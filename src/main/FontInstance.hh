@@ -8,6 +8,7 @@
  */
 class FontInstance {
     public:
+        std::string prefix;
         sf::Font font;
         int size;
         sf::Color colour;
@@ -15,7 +16,7 @@ class FontInstance {
         /**
          * Creates a font instance based on a string that contains all the info
          * it needs.
-         * @param data is the data and it should be in the format
+          @param data is the data and it should be in the format
          *             file:size:hexColour.
          * @throws invalid_argument if the data is no good.
          */
