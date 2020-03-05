@@ -1,8 +1,9 @@
+#include "main/Options.hh"
+#include "main/PicTree.hh"
+#include <iostream>
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 
-#include "main/Options.hh"
 
 Options getOptions(int argc, char **argv) {
     Options options;
@@ -39,6 +40,44 @@ Options getOptions(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
+    // Read input.
     Options options = getOptions(argc, argv);
+    std::vector
+    // Convert fonts.
+    // Sort Pictures
+    std::sort(
+        options.pics.begin(),
+        options.pics.end(),
+        [](ImageFile const &a, ImageFile const &b) {
+            return a.getLongestSide() > b.getLongestSide();
+        }
+    );
+    if (options.pics.size() > 0) {
+        // Position Pictures.
+        PicTree tree(options.dimensions, options.pics[0]);
+        for (
+            auto it = ++(options.pics.begin());
+            it != options.pics.end();
+            it++
+        ) {
+            int result = tree.insert(*it);
+            if (!result) {
+                std::cerr << "Couldn't fit all the pics sorry: " << (*it).name << std::endl;
+            }
+        }
+        // Render Image.
+        sf::Image image;
+        image.create(
+            options.dimensions.x,
+            options.dimensions.y,
+            sf::Color::Transparent
+        );
+        tree.render(image);
+        if (!image.saveToFile(options.image)) {
+            std::cerr << "Could not save to image file " << options.image <<
+                std::endl;
+        }
+    }
+    // Write to file.
     return 0;
 }

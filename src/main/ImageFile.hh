@@ -16,6 +16,12 @@ class ImageFile {
          * @param file is the file the pic is from.
          */
         ImageFile(char const *file);
+
+        /**
+         * Gives you the length of this image's longest side.
+         * @return the length of the longest side in pixels.
+         */
+        int getLongestSide() const;
 };
 
 #endif
