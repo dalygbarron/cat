@@ -13,7 +13,7 @@ class Options {
         std::string image;
         std::string output;
         std::string style = "xml";
-        sf::Vector2i dimensions = sf::Vector2i(1024, 1024);
+        sf::Vector2u dimensions = sf::Vector2u(1024, 1024);
         std::vector<ImageFile> pics;
         std::vector<FontInstance> fonts;
         int help = false;
