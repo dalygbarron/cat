@@ -33,8 +33,12 @@ Options getOptions(int argc, char **argv) {
                 break;
         }
     }
+    options.fonts.emplace(options.fonts.end(), 5);
     for (int i = optind; i < argc; i++) {
         options.pics.emplace(options.pics.end(), argv[i]);
+    }
+    for (FontInstance const &font: options.fonts) {
+        options.pics.emplace(options.pics.end(), font);
     }
     return options;
 }
@@ -42,8 +46,6 @@ Options getOptions(int argc, char **argv) {
 int main(int argc, char **argv) {
     // Read input.
     Options options = getOptions(argc, argv);
-    std::vector
-    // Convert fonts.
     // Sort Pictures
     std::sort(
         options.pics.begin(),
@@ -62,7 +64,8 @@ int main(int argc, char **argv) {
         ) {
             int result = tree.insert(*it);
             if (!result) {
-                std::cerr << "Couldn't fit all the pics sorry: " << (*it).name << std::endl;
+                std::cerr << "Couldn't fit all the pics sorry: " <<
+                    (*it).name << std::endl;
             }
         }
         // Render Image.
@@ -70,7 +73,7 @@ int main(int argc, char **argv) {
         image.create(
             options.dimensions.x,
             options.dimensions.y,
-            sf::Color::Transparent
+            sf::Color::Green
         );
         tree.render(image);
         if (!image.saveToFile(options.image)) {

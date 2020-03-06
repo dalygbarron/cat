@@ -1,6 +1,7 @@
 #ifndef IMAGE_FILE_H
 #define IMAGE_FILE_H
 
+#include "FontInstance.hh"
 #include <SFML/Graphics.hpp>
 
 /**
@@ -16,6 +17,12 @@ class ImageFile {
          * @param file is the file the pic is from.
          */
         ImageFile(char const *file);
+
+        /**
+         * Creates an image that represents a font.
+         * @param font is the font this image will represent.
+         */
+        ImageFile(FontInstance const &font);
 
         /**
          * Gives you the length of this image's longest side.

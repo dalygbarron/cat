@@ -17,3 +17,10 @@ FontInstance::FontInstance(char const *data) {
         throw new std::invalid_argument("bad font file");
     }
 }
+
+FontInstance::FontInstance(int test) {
+    this->name = "bocklin";
+    this->font.loadFromFile("trash/ubuntu.ttf");
+    this->size = 20;
+    this->colour = sf::Color::Red;
+}
