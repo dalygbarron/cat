@@ -48,7 +48,7 @@ void usage(char const *exe) {
     fprintf(stderr, "    [-d <width>:<height>]\n");
     fprintf(stderr, "    [-g <width>:<height>:<name>]...\n");
     fprintf(stderr, "    [-c longest-side|total-sides]\n");
-    fprintf(stderr, "    [-w xml|json]\n");
+    fprintf(stderr, "    [-w xml|json|csv]\n");
     fprintf(stderr, "For more information: %s -h\n", exe);
 }
 
@@ -81,7 +81,7 @@ void help(char const *exe) {
     printf("    [-c longest-side|total-sides]\n");
     printf("        Specifies the method of image sorting \n");
     printf("        (default: longest-side)\n");
-    printf("    [-w xml|json]\n");
+    printf("    [-w xml|json|csv]\n");
     printf("        Specifies output data format (default: xml)\n\n");
     printf("Example usage:\n");
     printf("    %s -o pic.png -f pic.xml a.png b.png c.png\n", exe);

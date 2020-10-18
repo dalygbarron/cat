@@ -102,7 +102,7 @@ int writeCsv(
     for (int i = 0; i < n; i++) {
         result |= fprintf(
             out,
-            "%s,%d,%d,%d,%d",
+            "%s,%d,%d,%d,%d\n",
             pics[i]->name,
             pics[i]->x,
             pics[i]->y,
