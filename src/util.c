@@ -115,6 +115,8 @@ int (*parseWrite(char const *name))(
         return writeXml;
     } else if (strcmp(name, "json") == 0) { 
         return writeJson;
+    } else if (strcmp(name, "csv") == 0) {
+        return writeCsv;
     } else {
         fprintf(stderr, "Writer '%s' is not valid.\n", name);
         return 0;

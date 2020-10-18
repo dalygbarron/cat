@@ -89,3 +89,25 @@ int writeJson(
     );
     return result >= 0;
 }
+
+int writeCsv(
+    FILE *out,
+    char const *imageFile,
+    char const *version,
+    struct Picture **pics,
+    int n
+) {
+    int result = 0;
+    result |= fprintf(out, "name,x,y,w,h\n");
+    for (int i = 0; i < n; i++) {
+        result |= fprintf(
+            out,
+            "%s,%d,%d,%d,%d",
+            pics[i]->name,
+            pics[i]->x,
+            pics[i]->y,
+            pics[i]->width,
+            pics[i]->height
+        );
+    }
+}
