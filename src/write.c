@@ -110,4 +110,5 @@ int writeCsv(
             pics[i]->height
         );
     }
+    return result >= 0;
 }
